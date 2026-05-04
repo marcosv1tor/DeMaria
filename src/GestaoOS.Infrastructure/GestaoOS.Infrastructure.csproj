@@ -46,7 +46,18 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConnectionStringProvider.cs" />
+    <Compile Include="Data\NpgsqlUnitOfWork.cs" />
+    <Compile Include="Data\NpgsqlUnitOfWorkFactory.cs" />
+    <Compile Include="Errors\PostgresErrorTranslator.cs" />
+    <Compile Include="Logging\FileAppLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AuditoriaRepository.cs" />
+    <Compile Include="Repositories\ClienteRepository.cs" />
+    <Compile Include="Repositories\OrdemServicoRepository.cs" />
+    <Compile Include="Repositories\RelatorioRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\ServicoRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
