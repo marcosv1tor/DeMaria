@@ -366,6 +366,15 @@ namespace GestaoOS.WinForms
 
             if (!(_servicoItem.SelectedItem is Servico servico))
             {
+                MessageBox.Show("Selecione um Servico para adicionar.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _servicoItem.Focus();
+                return;
+            }
+
+            if (_quantidade.Value <= 0)
+            {
+                MessageBox.Show("Informe uma Qtd maior que zero.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _quantidade.Focus();
                 return;
             }
 
@@ -398,6 +407,11 @@ namespace GestaoOS.WinForms
         {
             UiExceptionHandler.Run(() =>
             {
+                if (!EntradaValida())
+                {
+                    return;
+                }
+
                 var ordem = new OrdemServico
                 {
                     Id = _idAtual,
@@ -467,6 +481,39 @@ namespace GestaoOS.WinForms
             var habilitar = _usarPeriodo.Checked;
             _dataInicio.Enabled = habilitar;
             _dataFim.Enabled = habilitar;
+        }
+
+        private bool EntradaValida()
+        {
+            if (!(_cliente.SelectedValue is int clienteId) || clienteId <= 0)
+            {
+                MessageBox.Show("Selecione um Cliente.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _cliente.Focus();
+                return false;
+            }
+
+            if (!(_status.SelectedItem is StatusOrdemServico))
+            {
+                MessageBox.Show("Selecione um Status.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _status.Focus();
+                return false;
+            }
+
+            if (_usarConclusao.Checked && _conclusao.Value.Date < _abertura.Value.Date)
+            {
+                MessageBox.Show("A Conclusao nao pode ser anterior a Abertura.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _conclusao.Focus();
+                return false;
+            }
+
+            if ((StatusOrdemServico)_status.SelectedItem == StatusOrdemServico.Concluida && _itens.Count == 0)
+            {
+                MessageBox.Show("Adicione ao menos um item antes de concluir a OS.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _servicoItem.Focus();
+                return false;
+            }
+
+            return true;
         }
     }
 }

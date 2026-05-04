@@ -191,10 +191,15 @@ namespace GestaoOS.WinForms
         {
             UiExceptionHandler.Run(() =>
             {
+                if (!EntradaValida())
+                {
+                    return;
+                }
+
                 Bootstrapper.ServicoService().Salvar(new Servico
                 {
                     Id = _idAtual,
-                    Nome = _nome.Text,
+                    Nome = _nome.Text.Trim(),
                     ValorBase = _valorBase.Value,
                     PercentualImposto = _percentualImposto.Value,
                     Ativo = _ativo.Checked
@@ -231,6 +236,32 @@ namespace GestaoOS.WinForms
             _valorBase.Value = 0;
             _percentualImposto.Value = 0;
             _ativo.Checked = true;
+        }
+
+        private bool EntradaValida()
+        {
+            if (string.IsNullOrWhiteSpace(_nome.Text))
+            {
+                MessageBox.Show("Preencha o campo Nome.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _nome.Focus();
+                return false;
+            }
+
+            if (_valorBase.Value <= 0)
+            {
+                MessageBox.Show("Informe um Valor base maior que zero.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _valorBase.Focus();
+                return false;
+            }
+
+            if (_percentualImposto.Value < 0 || _percentualImposto.Value > 100)
+            {
+                MessageBox.Show("Informe um Imposto % entre 0 e 100.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _percentualImposto.Focus();
+                return false;
+            }
+
+            return true;
         }
 
     }

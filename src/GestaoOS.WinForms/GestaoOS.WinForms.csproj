@@ -11,7 +11,7 @@
     <FileAlignment>512</FileAlignment>
     <LangVersion>7.3</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon />
+    <ApplicationIcon>Assets\osLogo.ico</ApplicationIcon>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
@@ -84,6 +84,7 @@
     <Compile Include="UiStyle.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\osLogo.ico" />
     <None Include="App.config" />
     <Content Include="Reports\OrdensServicoReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
