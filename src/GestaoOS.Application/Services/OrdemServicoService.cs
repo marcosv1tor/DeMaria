@@ -22,7 +22,8 @@ namespace GestaoOS.Application.Services
             {
                 try
                 {
-                    ValidarParaSalvar(ordem);
+                    var statusAnterior = ordem.Id == 0 ? (StatusOrdemServico?)null : ObterStatusAnterior(uow, ordem.Id);
+                    ValidarParaSalvar(ordem, statusAnterior);
 
                     ordem.RecalcularValorTotal();
                     if (ordem.Status == StatusOrdemServico.Concluida && ordem.ValorTotal <= 0)
@@ -36,7 +37,8 @@ namespace GestaoOS.Application.Services
                     }
 
                     var operacao = ordem.Id == 0 ? OperacaoAuditoria.INSERT : OperacaoAuditoria.UPDATE;
-                    var statusAnterior = ordem.Id == 0 ? (StatusOrdemServico?)null : ObterStatusAnterior(uow, ordem.Id);
+                    var itensBloqueadosAntesDoSave = statusAnterior.HasValue &&
+                        (statusAnterior.Value == StatusOrdemServico.Concluida || statusAnterior.Value == StatusOrdemServico.Cancelada);
 
                     if (ordem.Id == 0)
                     {
@@ -47,7 +49,7 @@ namespace GestaoOS.Application.Services
                         throw new ConcorrenciaException("A ordem de servico foi alterada por outro usuario. Recarregue os dados antes de salvar.");
                     }
 
-                    if (!ordem.ItensBloqueados)
+                    if (!itensBloqueadosAntesDoSave)
                     {
                         uow.OrdensServico.SubstituirItens(ordem.Id, ordem.Itens);
                     }
@@ -104,7 +106,7 @@ namespace GestaoOS.Application.Services
             }
         }
 
-        private static void ValidarParaSalvar(OrdemServico ordem)
+        private static void ValidarParaSalvar(OrdemServico ordem, StatusOrdemServico? statusAnterior)
         {
             if (ordem == null)
             {
@@ -116,7 +118,11 @@ namespace GestaoOS.Application.Services
                 throw new ValidacaoException("Cliente e obrigatorio.");
             }
 
-            if (ordem.Id > 0 && ordem.ItensBloqueados && ordem.Itens.Count > 0)
+            var itensBloqueadosAntesDoSave = statusAnterior.HasValue
+                ? statusAnterior.Value == StatusOrdemServico.Concluida || statusAnterior.Value == StatusOrdemServico.Cancelada
+                : ordem.Id > 0 && ordem.ItensBloqueados;
+
+            if (itensBloqueadosAntesDoSave && ordem.Itens.Count > 0)
             {
                 throw new RegraNegocioException("Nao e permitido editar itens de ordem de servico concluida ou cancelada.");
             }
