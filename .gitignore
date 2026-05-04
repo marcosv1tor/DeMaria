@@ -1,0 +1,12 @@
+bin/
+obj/
+packages/
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+TestResults/
+*.trx
+logs/
+.worktrees/
