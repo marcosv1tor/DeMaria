@@ -71,6 +71,7 @@
     <Compile Include="RelatorioOrdensForm.cs" />
     <Compile Include="ServicoForm.cs" />
     <Compile Include="UiExceptionHandler.cs" />
+    <Compile Include="UiStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

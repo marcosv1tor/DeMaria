@@ -25,8 +25,8 @@ namespace GestaoOS.WinForms
         public RelatorioOrdensForm()
         {
             Text = "Relatorio Gerencial";
-            Size = new Size(1180, 760);
             StartPosition = FormStartPosition.CenterParent;
+            UiStyle.ApplyForm(this, new Size(1180, 760), new Size(1020, 680));
             BuildLayout();
             CarregarCombos();
         }
@@ -34,23 +34,11 @@ namespace GestaoOS.WinForms
         private void BuildLayout()
         {
             var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 72));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 92));
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
 
-            var filtros = new FlowLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(8) };
-            filtros.Controls.Add(new Label { Text = "Inicio", Width = 45, TextAlign = ContentAlignment.MiddleLeft });
-            filtros.Controls.Add(_inicio);
-            filtros.Controls.Add(new Label { Text = "Fim", Width = 35, TextAlign = ContentAlignment.MiddleLeft });
-            filtros.Controls.Add(_fim);
-            filtros.Controls.Add(new Label { Text = "Cliente", Width = 48, TextAlign = ContentAlignment.MiddleLeft });
-            _cliente.Width = 200;
-            filtros.Controls.Add(_cliente);
-            filtros.Controls.Add(new Label { Text = "Status", Width = 45, TextAlign = ContentAlignment.MiddleLeft });
-            _status.Width = 140;
-            filtros.Controls.Add(_status);
-            filtros.Controls.Add(Button("Gerar", Gerar));
-            filtros.Controls.Add(Button("PDF", ExportarPdf));
+            var filtros = CriarFiltros();
 
             _resumo.Dock = DockStyle.Fill;
             _resumo.TextAlign = ContentAlignment.MiddleLeft;
@@ -63,6 +51,40 @@ namespace GestaoOS.WinForms
             root.Controls.Add(_resumo, 0, 1);
             root.Controls.Add(_viewer, 0, 2);
             Controls.Add(root);
+        }
+
+        private Control CriarFiltros()
+        {
+            var group = UiStyle.GroupBox("Filtros do relatorio");
+            var filtros = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 10, RowCount = 1 };
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 45));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 62));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
+
+            _inicio.Format = DateTimePickerFormat.Short;
+            _fim.Format = DateTimePickerFormat.Short;
+            _cliente.DropDownStyle = ComboBoxStyle.DropDownList;
+            _status.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            filtros.Controls.Add(UiStyle.Label("Inicio"), 0, 0);
+            filtros.Controls.Add(UiStyle.Fill(_inicio), 1, 0);
+            filtros.Controls.Add(UiStyle.Label("Fim"), 2, 0);
+            filtros.Controls.Add(UiStyle.Fill(_fim), 3, 0);
+            filtros.Controls.Add(UiStyle.Label("Cliente"), 4, 0);
+            filtros.Controls.Add(UiStyle.Fill(_cliente), 5, 0);
+            filtros.Controls.Add(UiStyle.Label("Status"), 6, 0);
+            filtros.Controls.Add(UiStyle.Fill(_status), 7, 0);
+            filtros.Controls.Add(UiStyle.Button("Gerar", Gerar), 8, 0);
+            filtros.Controls.Add(UiStyle.Button("PDF", ExportarPdf), 9, 0);
+            group.Controls.Add(filtros);
+            return group;
         }
 
         private void CarregarCombos()
@@ -136,11 +158,5 @@ namespace GestaoOS.WinForms
             });
         }
 
-        private static Button Button(string text, Action action)
-        {
-            var button = new Button { Text = text, Width = 90, Height = 28, Margin = new Padding(4) };
-            button.Click += (s, e) => action();
-            return button;
-        }
     }
 }
