@@ -29,6 +29,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\OrdemServicoResumo.cs" />
+    <Compile Include="DTOs\RelatorioOrdemServico.cs" />
+    <Compile Include="Entities\Auditoria.cs" />
+    <Compile Include="Entities\Cliente.cs" />
+    <Compile Include="Entities\HistoricoStatus.cs" />
+    <Compile Include="Entities\OrdemServico.cs" />
+    <Compile Include="Entities\OrdemServicoItem.cs" />
+    <Compile Include="Entities\Servico.cs" />
+    <Compile Include="Enums\OperacaoAuditoria.cs" />
+    <Compile Include="Enums\StatusOrdemServico.cs" />
+    <Compile Include="Enums\TipoCliente.cs" />
+    <Compile Include="Filters\ClienteFiltro.cs" />
+    <Compile Include="Filters\OrdemServicoFiltro.cs" />
+    <Compile Include="Filters\Paginacao.cs" />
+    <Compile Include="Filters\ServicoFiltro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

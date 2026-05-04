@@ -27,6 +27,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GestaoOS.Application\GestaoOS.Application.csproj">
@@ -50,6 +51,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClienteServicoValidationTests.cs" />
+    <Compile Include="OrdemServicoRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
