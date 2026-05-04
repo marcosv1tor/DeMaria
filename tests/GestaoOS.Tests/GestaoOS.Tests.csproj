@@ -39,6 +39,10 @@
       <Project>{B6505432-440F-4F3A-B1E8-957C5CFCE181}</Project>
       <Name>GestaoOS.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\GestaoOS.WinForms\GestaoOS.WinForms.csproj">
+      <Project>{4E108131-F83A-45FB-8DDF-FE6C29AC0281}</Project>
+      <Name>GestaoOS.WinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
@@ -53,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClienteServicoValidationTests.cs" />
+    <Compile Include="OrdemServicoGridPresentationTests.cs" />
     <Compile Include="OrdemServicoRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -57,6 +57,7 @@ namespace GestaoOS.WinForms
             var gridGroup = UiStyle.GroupBox("Ordens cadastradas");
             UiStyle.ConfigureGrid(_grid);
             CriarColunasGrid();
+            _grid.CellFormatting += GridCellFormatting;
             _grid.SelectionChanged += (s, e) => SelecionarAtual();
             gridGroup.Controls.Add(_grid);
 
@@ -135,7 +136,7 @@ namespace GestaoOS.WinForms
             _grid.Columns.Add(UiStyle.TextColumn("Id", "OS", 55, null, DataGridViewContentAlignment.MiddleRight));
             _grid.Columns.Add(UiStyle.TextColumn("ClienteNome", "Cliente", 200));
             _grid.Columns.Add(UiStyle.TextColumn("DataAbertura", "Abertura", 120, "g", DataGridViewContentAlignment.MiddleLeft));
-            _grid.Columns.Add(UiStyle.TextColumn("DataConclusao", "Conclusao", 110, "d", DataGridViewContentAlignment.MiddleLeft));
+            _grid.Columns.Add(UiStyle.TextColumn("DataConclusao", "Conclusao", 110, null, DataGridViewContentAlignment.MiddleLeft));
             _grid.Columns.Add(UiStyle.TextColumn("Status", "Status", 95));
             _grid.Columns.Add(UiStyle.TextColumn("ValorTotal", "Total", 95, "C2", DataGridViewContentAlignment.MiddleRight));
             _grid.Columns.Add(UiStyle.TextColumn("Versao", "Versao", 65, null, DataGridViewContentAlignment.MiddleRight));
@@ -316,6 +317,22 @@ namespace GestaoOS.WinForms
 
             _pagina++;
             Carregar();
+        }
+
+        private void GridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (_grid.Columns[e.ColumnIndex].DataPropertyName != "DataConclusao")
+            {
+                return;
+            }
+
+            e.Value = OrdemServicoGridPresentation.FormatarConclusao(e.Value as DateTime?);
+            e.FormattingApplied = true;
         }
 
         private void SelecionarAtual()
