@@ -429,11 +429,12 @@ namespace GestaoOS.WinForms
                     return;
                 }
 
+                var momentoSalvar = DateTime.Now;
                 var ordem = new OrdemServico
                 {
                     Id = _idAtual,
                     ClienteId = Convert.ToInt32(_cliente.SelectedValue),
-                    DataAbertura = _abertura.Value,
+                    DataAbertura = OrdemServicoDateTime.ResolverDataAbertura(_abertura.Value, momentoSalvar, _idAtual == 0),
                     DataConclusao = _usarConclusao.Checked ? (DateTime?)_conclusao.Value : null,
                     Status = (StatusOrdemServico)_status.SelectedItem,
                     Observacao = _observacao.Text,

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClienteServicoValidationTests.cs" />
+    <Compile Include="OrdemServicoDateTimeTests.cs" />
     <Compile Include="OrdemServicoGridPresentationTests.cs" />
     <Compile Include="OrdemServicoRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
