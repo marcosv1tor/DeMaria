@@ -57,6 +57,7 @@ namespace GestaoOS.WinForms
             var gridGroup = UiStyle.GroupBox("Ordens cadastradas");
             UiStyle.ConfigureGrid(_grid);
             CriarColunasGrid();
+            _grid.CellFormatting += GridCellFormatting;
             _grid.SelectionChanged += (s, e) => SelecionarAtual();
             gridGroup.Controls.Add(_grid);
 
@@ -135,7 +136,7 @@ namespace GestaoOS.WinForms
             _grid.Columns.Add(UiStyle.TextColumn("Id", "OS", 55, null, DataGridViewContentAlignment.MiddleRight));
             _grid.Columns.Add(UiStyle.TextColumn("ClienteNome", "Cliente", 200));
             _grid.Columns.Add(UiStyle.TextColumn("DataAbertura", "Abertura", 120, "g", DataGridViewContentAlignment.MiddleLeft));
-            _grid.Columns.Add(UiStyle.TextColumn("DataConclusao", "Conclusao", 110, "d", DataGridViewContentAlignment.MiddleLeft));
+            _grid.Columns.Add(UiStyle.TextColumn("DataConclusao", "Conclusao", 110, null, DataGridViewContentAlignment.MiddleLeft));
             _grid.Columns.Add(UiStyle.TextColumn("Status", "Status", 95));
             _grid.Columns.Add(UiStyle.TextColumn("ValorTotal", "Total", 95, "C2", DataGridViewContentAlignment.MiddleRight));
             _grid.Columns.Add(UiStyle.TextColumn("Versao", "Versao", 65, null, DataGridViewContentAlignment.MiddleRight));
@@ -318,6 +319,22 @@ namespace GestaoOS.WinForms
             Carregar();
         }
 
+        private void GridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (_grid.Columns[e.ColumnIndex].DataPropertyName != "DataConclusao")
+            {
+                return;
+            }
+
+            e.Value = OrdemServicoGridPresentation.FormatarConclusao(e.Value as DateTime?);
+            e.FormattingApplied = true;
+        }
+
         private void SelecionarAtual()
         {
             if (_grid.CurrentRow == null || _grid.CurrentRow.IsNewRow)
@@ -366,6 +383,15 @@ namespace GestaoOS.WinForms
 
             if (!(_servicoItem.SelectedItem is Servico servico))
             {
+                MessageBox.Show("Selecione um Servico para adicionar.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _servicoItem.Focus();
+                return;
+            }
+
+            if (_quantidade.Value <= 0)
+            {
+                MessageBox.Show("Informe uma Qtd maior que zero.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _quantidade.Focus();
                 return;
             }
 
@@ -398,11 +424,17 @@ namespace GestaoOS.WinForms
         {
             UiExceptionHandler.Run(() =>
             {
+                if (!EntradaValida())
+                {
+                    return;
+                }
+
+                var momentoSalvar = DateTime.Now;
                 var ordem = new OrdemServico
                 {
                     Id = _idAtual,
                     ClienteId = Convert.ToInt32(_cliente.SelectedValue),
-                    DataAbertura = _abertura.Value,
+                    DataAbertura = OrdemServicoDateTime.ResolverDataAbertura(_abertura.Value, momentoSalvar, _idAtual == 0),
                     DataConclusao = _usarConclusao.Checked ? (DateTime?)_conclusao.Value : null,
                     Status = (StatusOrdemServico)_status.SelectedItem,
                     Observacao = _observacao.Text,
@@ -467,6 +499,39 @@ namespace GestaoOS.WinForms
             var habilitar = _usarPeriodo.Checked;
             _dataInicio.Enabled = habilitar;
             _dataFim.Enabled = habilitar;
+        }
+
+        private bool EntradaValida()
+        {
+            if (!(_cliente.SelectedValue is int clienteId) || clienteId <= 0)
+            {
+                MessageBox.Show("Selecione um Cliente.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _cliente.Focus();
+                return false;
+            }
+
+            if (!(_status.SelectedItem is StatusOrdemServico))
+            {
+                MessageBox.Show("Selecione um Status.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _status.Focus();
+                return false;
+            }
+
+            if (_usarConclusao.Checked && _conclusao.Value.Date < _abertura.Value.Date)
+            {
+                MessageBox.Show("A Conclusao nao pode ser anterior a Abertura.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _conclusao.Focus();
+                return false;
+            }
+
+            if ((StatusOrdemServico)_status.SelectedItem == StatusOrdemServico.Concluida && _itens.Count == 0)
+            {
+                MessageBox.Show("Adicione ao menos um item antes de concluir a OS.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _servicoItem.Focus();
+                return false;
+            }
+
+            return true;
         }
     }
 }

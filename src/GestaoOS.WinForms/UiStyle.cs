@@ -18,6 +18,7 @@ namespace GestaoOS.WinForms
             form.Size = size;
             form.MinimumSize = minimumSize;
             form.Padding = new Padding(10);
+            ApplyApplicationIcon(form);
         }
 
         public static Button Button(string text, Action action)
@@ -190,6 +191,22 @@ namespace GestaoOS.WinForms
         {
             e.ThrowException = false;
             e.Cancel = true;
+        }
+
+        private static void ApplyApplicationIcon(Form form)
+        {
+            try
+            {
+                var icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+                if (icon != null)
+                {
+                    form.Icon = icon;
+                }
+            }
+            catch
+            {
+                // The default Windows Forms icon remains available if extraction fails.
+            }
         }
     }
 }

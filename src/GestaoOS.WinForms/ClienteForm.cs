@@ -215,10 +215,10 @@ namespace GestaoOS.WinForms
                 var cliente = new Cliente
                 {
                     Id = _idAtual,
-                    Nome = _nome.Text,
+                    Nome = _nome.Text.Trim(),
                     Documento = UiStyle.DigitsOnly(_documento.Text),
                     Tipo = (TipoCliente)_tipo.SelectedItem,
-                    Email = _email.Text,
+                    Email = _email.Text.Trim(),
                     Telefone = UiStyle.DigitsOnly(_telefone.Text),
                     Ativo = _ativo.Checked
                 };
@@ -301,11 +301,26 @@ namespace GestaoOS.WinForms
 
         private bool EntradaValida()
         {
+            if (string.IsNullOrWhiteSpace(_nome.Text))
+            {
+                MessageBox.Show("Preencha o campo Nome.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _nome.Focus();
+                return false;
+            }
+
             var documento = UiStyle.DigitsOnly(_documento.Text);
-            var esperado = _tipo.SelectedItem is TipoCliente tipo && tipo == TipoCliente.Juridica ? 14 : 11;
+            if (!(_tipo.SelectedItem is TipoCliente tipo))
+            {
+                MessageBox.Show("Selecione o campo Tipo.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _tipo.Focus();
+                return false;
+            }
+
+            var esperado = tipo == TipoCliente.Juridica ? 14 : 11;
             if (documento.Length != esperado)
             {
                 MessageBox.Show("Informe um documento com " + esperado + " digitos.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _documento.Focus();
                 return false;
             }
 
@@ -313,6 +328,7 @@ namespace GestaoOS.WinForms
             if (telefone.Length > 0 && telefone.Length != 10 && telefone.Length != 11)
             {
                 MessageBox.Show("Informe um telefone com 10 ou 11 digitos.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _telefone.Focus();
                 return false;
             }
 
@@ -320,6 +336,7 @@ namespace GestaoOS.WinForms
             if (email.Length > 0 && (email.IndexOf("@", StringComparison.Ordinal) <= 0 || email.LastIndexOf(".", StringComparison.Ordinal) < email.IndexOf("@", StringComparison.Ordinal)))
             {
                 MessageBox.Show("Informe um e-mail valido.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _email.Focus();
                 return false;
             }
 

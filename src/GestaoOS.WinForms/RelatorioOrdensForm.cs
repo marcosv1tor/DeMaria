@@ -112,6 +112,11 @@ namespace GestaoOS.WinForms
         {
             UiExceptionHandler.Run(() =>
             {
+                if (!EntradaValida())
+                {
+                    return;
+                }
+
                 var filtro = new OrdemServicoFiltro
                 {
                     DataInicio = _inicio.Value.Date,
@@ -156,6 +161,18 @@ namespace GestaoOS.WinForms
                     File.WriteAllBytes(dialog.FileName, bytes);
                 }
             });
+        }
+
+        private bool EntradaValida()
+        {
+            if (_inicio.Value.Date > _fim.Value.Date)
+            {
+                MessageBox.Show("A data Inicio nao pode ser maior que a data Fim.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _inicio.Focus();
+                return false;
+            }
+
+            return true;
         }
 
     }
