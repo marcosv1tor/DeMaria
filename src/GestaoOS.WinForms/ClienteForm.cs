@@ -15,10 +15,10 @@ namespace GestaoOS.WinForms
         private readonly ComboBox _filtroAtivo = new ComboBox();
         private readonly DataGridView _grid = new DataGridView();
         private readonly TextBox _nome = new TextBox();
-        private readonly TextBox _documento = new TextBox();
+        private readonly MaskedTextBox _documento = new MaskedTextBox();
         private readonly ComboBox _tipo = new ComboBox();
         private readonly TextBox _email = new TextBox();
-        private readonly TextBox _telefone = new TextBox();
+        private readonly MaskedTextBox _telefone = new MaskedTextBox();
         private readonly CheckBox _ativo = new CheckBox();
         private readonly Label _paginaLabel = new Label();
         private BindingList<Cliente> _clientes = new BindingList<Cliente>();
@@ -38,7 +38,7 @@ namespace GestaoOS.WinForms
         private void BuildLayout()
         {
             var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 105));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 122));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 220));
 
@@ -57,10 +57,19 @@ namespace GestaoOS.WinForms
             editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             editor.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            _filtroNome.MaxLength = 150;
+            _nome.MaxLength = 150;
+            _email.MaxLength = 150;
             UiStyle.AddField(editor, "Nome", _nome, 0, 0);
             UiStyle.AddField(editor, "Documento", _documento, 2, 0);
             _tipo.DropDownStyle = ComboBoxStyle.DropDownList;
             _tipo.DataSource = Enum.GetValues(typeof(TipoCliente));
+            _tipo.SelectedIndexChanged += (s, e) => AtualizarMascaraDocumento();
+            _documento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            _telefone.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            _telefone.Leave += (s, e) => AtualizarMascaraTelefone(UiStyle.DigitsOnly(_telefone.Text));
+            UiStyle.ConfigureNoSpaces(_email);
+            AtualizarMascaraTelefone(string.Empty);
             UiStyle.AddField(editor, "Tipo", _tipo, 0, 1);
             UiStyle.AddField(editor, "E-mail", _email, 2, 1);
             UiStyle.AddField(editor, "Telefone", _telefone, 0, 2);
@@ -93,12 +102,13 @@ namespace GestaoOS.WinForms
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
 
             _filtroAtivo.DropDownStyle = ComboBoxStyle.DropDownList;
             _filtroAtivo.Items.AddRange(new object[] { "Todos", "Ativos", "Inativos" });
             _filtroAtivo.SelectedIndex = 0;
+            UiStyle.ConfigureDigitsOnly(_filtroDocumento, 14);
 
             UiStyle.AddField(layout, "Nome", _filtroNome, 0, 0);
             UiStyle.AddField(layout, "Documento", _filtroDocumento, 2, 0);
@@ -122,8 +132,8 @@ namespace GestaoOS.WinForms
             _paginaLabel.Dock = DockStyle.Fill;
             _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
             pager.Controls.Add(_paginaLabel, 0, 0);
-            pager.Controls.Add(UiStyle.Button("Anterior", PaginaAnterior), 1, 0);
-            pager.Controls.Add(UiStyle.Button("Proxima", ProximaPagina), 2, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Anterior", PaginaAnterior), 1, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Proxima", ProximaPagina), 2, 0);
             return pager;
         }
 
@@ -146,7 +156,7 @@ namespace GestaoOS.WinForms
                 var filtro = new ClienteFiltro
                 {
                     Nome = _filtroNome.Text,
-                    Documento = _filtroDocumento.Text,
+                    Documento = UiStyle.DigitsOnly(_filtroDocumento.Text),
                     Ativo = _filtroAtivo.SelectedIndex == 0 ? (bool?)null : _filtroAtivo.SelectedIndex == 1
                 };
                 var resultado = Bootstrapper.ClienteService().Pesquisar(filtro, new Paginacao { Pagina = _pagina, TamanhoPagina = 20 });
@@ -197,14 +207,19 @@ namespace GestaoOS.WinForms
         {
             UiExceptionHandler.Run(() =>
             {
+                if (!EntradaValida())
+                {
+                    return;
+                }
+
                 var cliente = new Cliente
                 {
                     Id = _idAtual,
                     Nome = _nome.Text,
-                    Documento = _documento.Text,
+                    Documento = UiStyle.DigitsOnly(_documento.Text),
                     Tipo = (TipoCliente)_tipo.SelectedItem,
                     Email = _email.Text,
-                    Telefone = _telefone.Text,
+                    Telefone = UiStyle.DigitsOnly(_telefone.Text),
                     Ativo = _ativo.Checked
                 };
                 Bootstrapper.ClienteService().Salvar(cliente);
@@ -248,10 +263,11 @@ namespace GestaoOS.WinForms
 
             _idAtual = cliente.Id;
             _nome.Text = cliente.Nome;
-            _documento.Text = cliente.Documento;
             _tipo.SelectedItem = cliente.Tipo;
+            AtualizarMascaraDocumento();
+            _documento.Text = UiStyle.DigitsOnly(cliente.Documento);
             _email.Text = cliente.Email;
-            _telefone.Text = cliente.Telefone;
+            AtualizarMascaraTelefone(UiStyle.DigitsOnly(cliente.Telefone));
             _ativo.Checked = cliente.Ativo;
         }
 
@@ -264,6 +280,50 @@ namespace GestaoOS.WinForms
             _telefone.Clear();
             _ativo.Checked = true;
             _tipo.SelectedIndex = 0;
+            AtualizarMascaraDocumento();
+            AtualizarMascaraTelefone(string.Empty);
+        }
+
+        private void AtualizarMascaraDocumento()
+        {
+            var digitos = UiStyle.DigitsOnly(_documento.Text);
+            _documento.Mask = _tipo.SelectedItem is TipoCliente tipo && tipo == TipoCliente.Juridica
+                ? "00.000.000/0000-00"
+                : "000.000.000-00";
+            _documento.Text = digitos;
+        }
+
+        private void AtualizarMascaraTelefone(string digitos)
+        {
+            _telefone.Mask = digitos.Length == 0 || digitos.Length > 10 ? "(00) 00000-0000" : "(00) 0000-0000";
+            _telefone.Text = digitos;
+        }
+
+        private bool EntradaValida()
+        {
+            var documento = UiStyle.DigitsOnly(_documento.Text);
+            var esperado = _tipo.SelectedItem is TipoCliente tipo && tipo == TipoCliente.Juridica ? 14 : 11;
+            if (documento.Length != esperado)
+            {
+                MessageBox.Show("Informe um documento com " + esperado + " digitos.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            var telefone = UiStyle.DigitsOnly(_telefone.Text);
+            if (telefone.Length > 0 && telefone.Length != 10 && telefone.Length != 11)
+            {
+                MessageBox.Show("Informe um telefone com 10 ou 11 digitos.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            var email = _email.Text.Trim();
+            if (email.Length > 0 && (email.IndexOf("@", StringComparison.Ordinal) <= 0 || email.LastIndexOf(".", StringComparison.Ordinal) < email.IndexOf("@", StringComparison.Ordinal)))
+            {
+                MessageBox.Show("Informe um e-mail valido.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
 
     }

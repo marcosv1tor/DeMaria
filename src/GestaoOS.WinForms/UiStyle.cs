@@ -40,6 +40,13 @@ namespace GestaoOS.WinForms
             return button;
         }
 
+        public static Button PagerButton(string text, Action action)
+        {
+            var button = Button(text, action, 96);
+            button.Margin = new Padding(4, 2, 4, 8);
+            return button;
+        }
+
         public static GroupBox GroupBox(string text)
         {
             return new GroupBox
@@ -67,6 +74,49 @@ namespace GestaoOS.WinForms
             control.Dock = DockStyle.Fill;
             control.Margin = new Padding(3, 3, 8, 3);
             return control;
+        }
+
+        public static void ConfigureDigitsOnly(TextBox textBox, int maxLength)
+        {
+            textBox.MaxLength = maxLength;
+            textBox.KeyPress += (s, e) =>
+            {
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            };
+        }
+
+        public static void ConfigureNoSpaces(TextBox textBox)
+        {
+            textBox.KeyPress += (s, e) =>
+            {
+                if (!char.IsControl(e.KeyChar) && char.IsWhiteSpace(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            };
+        }
+
+        public static string DigitsOnly(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            var buffer = new char[value.Length];
+            var index = 0;
+            foreach (var ch in value)
+            {
+                if (char.IsDigit(ch))
+                {
+                    buffer[index++] = ch;
+                }
+            }
+
+            return new string(buffer, 0, index);
         }
 
         public static void ConfigureGrid(DataGridView grid)

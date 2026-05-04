@@ -33,7 +33,7 @@ namespace GestaoOS.WinForms
         private void BuildLayout()
         {
             var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 105));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 122));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 185));
 
@@ -45,9 +45,12 @@ namespace GestaoOS.WinForms
             _valorBase.DecimalPlaces = 2;
             _valorBase.Maximum = 9999999;
             _valorBase.Minimum = 0;
+            _valorBase.Increment = 10;
+            _valorBase.ThousandsSeparator = true;
             _percentualImposto.DecimalPlaces = 2;
             _percentualImposto.Maximum = 100;
             _percentualImposto.Minimum = 0;
+            _percentualImposto.Increment = 0.5m;
 
             var editorGroup = UiStyle.GroupBox("Dados do servico");
             var editor = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 4, RowCount = 3 };
@@ -58,6 +61,8 @@ namespace GestaoOS.WinForms
             editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             editor.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            _filtroNome.MaxLength = 150;
+            _nome.MaxLength = 150;
             UiStyle.AddField(editor, "Nome", _nome, 0, 0);
             UiStyle.AddField(editor, "Valor base", _valorBase, 2, 0);
             UiStyle.AddField(editor, "Imposto %", _percentualImposto, 0, 1);
@@ -87,8 +92,8 @@ namespace GestaoOS.WinForms
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
 
             _filtroAtivo.DropDownStyle = ComboBoxStyle.DropDownList;
             _filtroAtivo.Items.AddRange(new object[] { "Todos", "Ativos", "Inativos" });
@@ -115,8 +120,8 @@ namespace GestaoOS.WinForms
             _paginaLabel.Dock = DockStyle.Fill;
             _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
             pager.Controls.Add(_paginaLabel, 0, 0);
-            pager.Controls.Add(UiStyle.Button("Anterior", PaginaAnterior), 1, 0);
-            pager.Controls.Add(UiStyle.Button("Proxima", ProximaPagina), 2, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Anterior", PaginaAnterior), 1, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Proxima", ProximaPagina), 2, 0);
             return pager;
         }
 

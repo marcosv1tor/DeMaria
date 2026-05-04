@@ -48,7 +48,7 @@ namespace GestaoOS.WinForms
         private void BuildLayout()
         {
             var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 112));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 130));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 44));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 56));
 
@@ -86,8 +86,8 @@ namespace GestaoOS.WinForms
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4));
-            filtros.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
-            filtros.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            filtros.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
+            filtros.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
 
             _usarPeriodo.Text = "Periodo";
             _usarPeriodo.Dock = DockStyle.Fill;
@@ -124,8 +124,8 @@ namespace GestaoOS.WinForms
             _paginaLabel.Dock = DockStyle.Fill;
             _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
             pager.Controls.Add(_paginaLabel, 0, 0);
-            pager.Controls.Add(UiStyle.Button("Anterior", PaginaAnterior), 1, 0);
-            pager.Controls.Add(UiStyle.Button("Proxima", ProximaPagina), 2, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Anterior", PaginaAnterior), 1, 0);
+            pager.Controls.Add(UiStyle.PagerButton("Proxima", ProximaPagina), 2, 0);
             return pager;
         }
 
@@ -167,6 +167,7 @@ namespace GestaoOS.WinForms
             _conclusao.Enabled = _usarConclusao.Checked;
             _observacao.Multiline = true;
             _observacao.ScrollBars = ScrollBars.Vertical;
+            _observacao.MaxLength = 2000;
 
             UiStyle.AddField(panel, "Cliente", _cliente, 0);
             UiStyle.AddField(panel, "Abertura", _abertura, 1);
@@ -201,6 +202,8 @@ namespace GestaoOS.WinForms
             _quantidade.DecimalPlaces = 2;
             _quantidade.Minimum = 1;
             _quantidade.Maximum = 999;
+            _quantidade.Increment = 1;
+            _quantidade.ThousandsSeparator = true;
             _quantidade.Value = 1;
             topo.Controls.Add(UiStyle.Label("Servico"), 0, 0);
             topo.Controls.Add(UiStyle.Fill(_servicoItem), 1, 0);
