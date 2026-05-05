@@ -12,85 +12,33 @@ using Microsoft.Reporting.WinForms;
 
 namespace GestaoOS.WinForms
 {
-    public class RelatorioOrdensForm : Form
+    public partial class RelatorioOrdensForm : Form
     {
-        private readonly ComboBox _cliente = new ComboBox();
-        private readonly ComboBox _status = new ComboBox();
-        private readonly DateTimePicker _inicio = new DateTimePicker();
-        private readonly DateTimePicker _fim = new DateTimePicker();
-        private readonly CheckBox _usarPeriodo = new CheckBox();
-        private readonly ReportViewer _viewer = new ReportViewer();
-        private readonly Label _resumo = new Label();
         private BindingList<RelatorioOrdemServico> _dados = new BindingList<RelatorioOrdemServico>();
 
         public RelatorioOrdensForm()
         {
-            Text = "Relatorio Gerencial";
-            StartPosition = FormStartPosition.CenterParent;
-            UiStyle.ApplyForm(this, new Size(1180, 760), new Size(1020, 680));
-            BuildLayout();
+            InitializeComponent();
+            if (UiStyle.IsDesignMode(this))
+            {
+                return;
+            }
             CarregarCombos();
         }
 
-        private void BuildLayout()
+        private void UsarPeriodo_CheckedChanged(object sender, EventArgs e)
         {
-            var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 92));
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-
-            var filtros = CriarFiltros();
-
-            _resumo.Dock = DockStyle.Fill;
-            _resumo.TextAlign = ContentAlignment.MiddleLeft;
-            _resumo.Padding = new Padding(8, 0, 0, 0);
-
-            _viewer.Dock = DockStyle.Fill;
-            _viewer.ProcessingMode = ProcessingMode.Local;
-
-            root.Controls.Add(filtros, 0, 0);
-            root.Controls.Add(_resumo, 0, 1);
-            root.Controls.Add(_viewer, 0, 2);
-            Controls.Add(root);
+            AtualizarPeriodo();
         }
 
-        private Control CriarFiltros()
+        private void GerarButton_Click(object sender, EventArgs e)
         {
-            var group = UiStyle.GroupBox("Filtros do relatorio");
-            var filtros = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 11, RowCount = 1 };
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 82));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 45));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 62));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
+            Gerar();
+        }
 
-            _usarPeriodo.Text = "Periodo";
-            _usarPeriodo.Dock = DockStyle.Fill;
-            _usarPeriodo.CheckedChanged += (s, e) => AtualizarPeriodo();
-            _inicio.Format = DateTimePickerFormat.Short;
-            _fim.Format = DateTimePickerFormat.Short;
-            _cliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            _status.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            filtros.Controls.Add(UiStyle.Fill(_usarPeriodo), 0, 0);
-            filtros.Controls.Add(UiStyle.Label("Inicio"), 1, 0);
-            filtros.Controls.Add(UiStyle.Fill(_inicio), 2, 0);
-            filtros.Controls.Add(UiStyle.Label("Fim"), 3, 0);
-            filtros.Controls.Add(UiStyle.Fill(_fim), 4, 0);
-            filtros.Controls.Add(UiStyle.Label("Cliente"), 5, 0);
-            filtros.Controls.Add(UiStyle.Fill(_cliente), 6, 0);
-            filtros.Controls.Add(UiStyle.Label("Status"), 7, 0);
-            filtros.Controls.Add(UiStyle.Fill(_status), 8, 0);
-            filtros.Controls.Add(UiStyle.Button("Gerar", Gerar), 9, 0);
-            filtros.Controls.Add(UiStyle.Button("PDF", ExportarPdf), 10, 0);
-            group.Controls.Add(filtros);
-            return group;
+        private void PdfButton_Click(object sender, EventArgs e)
+        {
+            ExportarPdf();
         }
 
         private void CarregarCombos()
@@ -182,6 +130,5 @@ namespace GestaoOS.WinForms
             _inicio.Enabled = _usarPeriodo.Checked;
             _fim.Enabled = _usarPeriodo.Checked;
         }
-
     }
 }

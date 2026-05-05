@@ -9,27 +9,9 @@ using GestaoOS.Domain.Filters;
 
 namespace GestaoOS.WinForms
 {
-    public class OrdemServicoForm : Form
+    public partial class OrdemServicoForm : Form
     {
-        private readonly ComboBox _filtroCliente = new ComboBox();
-        private readonly ComboBox _filtroStatus = new ComboBox();
-        private readonly DateTimePicker _dataInicio = new DateTimePicker();
-        private readonly DateTimePicker _dataFim = new DateTimePicker();
-        private readonly CheckBox _usarPeriodo = new CheckBox();
-        private readonly DataGridView _grid = new DataGridView();
-        private readonly Label _paginaLabel = new Label();
-        private readonly ComboBox _cliente = new ComboBox();
-        private readonly ComboBox _status = new ComboBox();
-        private readonly DateTimePicker _abertura = new DateTimePicker();
-        private readonly DateTimePicker _conclusao = new DateTimePicker();
-        private readonly CheckBox _usarConclusao = new CheckBox();
-        private readonly TextBox _observacao = new TextBox();
-        private readonly ComboBox _servicoItem = new ComboBox();
-        private readonly NumericUpDown _quantidade = new NumericUpDown();
-        private readonly DataGridView _itensGrid = new DataGridView();
         private readonly BindingList<OrdemServicoItem> _itens = new BindingList<OrdemServicoItem>();
-        private Button _adicionarItemButton;
-        private Button _removerItemButton;
         private int _pagina = 1;
         private int _totalPaginas = 1;
         private int _idAtual;
@@ -37,201 +19,76 @@ namespace GestaoOS.WinForms
 
         public OrdemServicoForm()
         {
-            Text = "Ordens de Servico";
-            StartPosition = FormStartPosition.CenterParent;
-            UiStyle.ApplyForm(this, new Size(1280, 820), new Size(1120, 720));
-            BuildLayout();
+            InitializeComponent();
+            if (UiStyle.IsDesignMode(this))
+            {
+                return;
+            }
+            _status.DataSource = Enum.GetValues(typeof(StatusOrdemServico));
+            _itensGrid.DataSource = _itens;
             CarregarCombos();
             Carregar();
         }
 
-        private void BuildLayout()
+        private void Grid_SelectionChanged(object sender, EventArgs e)
         {
-            var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 130));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 44));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 56));
-
-            var filtros = CriarFiltros();
-
-            var gridGroup = UiStyle.GroupBox("Ordens cadastradas");
-            UiStyle.ConfigureGrid(_grid);
-            CriarColunasGrid();
-            _grid.CellFormatting += GridCellFormatting;
-            _grid.SelectionChanged += (s, e) => SelecionarAtual();
-            gridGroup.Controls.Add(_grid);
-
-            var editor = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42));
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58));
-            editor.Controls.Add(CriarDadosOs(), 0, 0);
-            editor.Controls.Add(CriarItens(), 1, 0);
-
-            root.Controls.Add(filtros, 0, 0);
-            root.Controls.Add(gridGroup, 0, 1);
-            root.Controls.Add(editor, 0, 2);
-            Controls.Add(root);
+            SelecionarAtual();
         }
 
-        private Control CriarFiltros()
+        private void Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            var group = UiStyle.GroupBox("Pesquisa");
-            var filtros = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 10, RowCount = 2 };
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 62));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 62));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4));
-            filtros.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
-            filtros.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
+            e.ThrowException = false;
+            e.Cancel = true;
+        }
 
-            _usarPeriodo.Text = "Periodo";
-            _usarPeriodo.Dock = DockStyle.Fill;
-            _usarPeriodo.CheckedChanged += (s, e) => AtualizarFiltroPeriodo();
-            _dataInicio.Format = DateTimePickerFormat.Short;
-            _dataFim.Format = DateTimePickerFormat.Short;
-            _filtroCliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            _filtroStatus.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            filtros.Controls.Add(UiStyle.Fill(_usarPeriodo), 0, 0);
-            filtros.Controls.Add(UiStyle.Fill(_dataInicio), 1, 0);
-            filtros.Controls.Add(UiStyle.Fill(_dataFim), 2, 0);
-            filtros.Controls.Add(UiStyle.Label("Cliente"), 3, 0);
-            filtros.Controls.Add(UiStyle.Fill(_filtroCliente), 4, 0);
-            filtros.Controls.Add(UiStyle.Label("Status"), 5, 0);
-            filtros.Controls.Add(UiStyle.Fill(_filtroStatus), 6, 0);
-            filtros.Controls.Add(UiStyle.Button("Pesquisar", Pesquisar), 7, 0);
-            filtros.Controls.Add(UiStyle.Button("Nova", Limpar), 8, 0);
-
-            var pager = CriarPaginacao();
-            filtros.Controls.Add(pager, 0, 1);
-            filtros.SetColumnSpan(pager, 10);
-            group.Controls.Add(filtros);
+        private void UsarPeriodo_CheckedChanged(object sender, EventArgs e)
+        {
             AtualizarFiltroPeriodo();
-            return group;
         }
 
-        private Control CriarPaginacao()
+        private void Status_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var pager = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 3, RowCount = 1 };
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            _paginaLabel.Dock = DockStyle.Fill;
-            _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
-            pager.Controls.Add(_paginaLabel, 0, 0);
-            pager.Controls.Add(UiStyle.PagerButton("Anterior", PaginaAnterior), 1, 0);
-            pager.Controls.Add(UiStyle.PagerButton("Proxima", ProximaPagina), 2, 0);
-            return pager;
+            AtualizarEdicaoItens();
         }
 
-        private void CriarColunasGrid()
+        private void UsarConclusao_CheckedChanged(object sender, EventArgs e)
         {
-            _grid.Columns.Clear();
-            _grid.Columns.Add(UiStyle.TextColumn("Id", "OS", 55, null, DataGridViewContentAlignment.MiddleRight));
-            _grid.Columns.Add(UiStyle.TextColumn("ClienteNome", "Cliente", 200));
-            _grid.Columns.Add(UiStyle.TextColumn("DataAbertura", "Abertura", 120, "g", DataGridViewContentAlignment.MiddleLeft));
-            _grid.Columns.Add(UiStyle.TextColumn("DataConclusao", "Conclusao", 110, null, DataGridViewContentAlignment.MiddleLeft));
-            _grid.Columns.Add(UiStyle.TextColumn("Status", "Status", 95));
-            _grid.Columns.Add(UiStyle.TextColumn("ValorTotal", "Total", 95, "C2", DataGridViewContentAlignment.MiddleRight));
-            _grid.Columns.Add(UiStyle.TextColumn("Versao", "Versao", 65, null, DataGridViewContentAlignment.MiddleRight));
-        }
-
-        private Control CriarDadosOs()
-        {
-            var group = UiStyle.GroupBox("Dados da ordem");
-            var panel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 7 };
-            panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
-
-            _cliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            _status.DropDownStyle = ComboBoxStyle.DropDownList;
-            _status.DataSource = Enum.GetValues(typeof(StatusOrdemServico));
-            _status.SelectedIndexChanged += (s, e) => AtualizarEdicaoItens();
-            _abertura.Format = DateTimePickerFormat.Short;
-            _conclusao.Format = DateTimePickerFormat.Short;
-            _usarConclusao.Text = "Informar conclusao";
-            _usarConclusao.Dock = DockStyle.Fill;
-            _usarConclusao.CheckedChanged += (s, e) => _conclusao.Enabled = _usarConclusao.Checked;
             _conclusao.Enabled = _usarConclusao.Checked;
-            _observacao.Multiline = true;
-            _observacao.ScrollBars = ScrollBars.Vertical;
-            _observacao.MaxLength = 2000;
-
-            UiStyle.AddField(panel, "Cliente", _cliente, 0);
-            UiStyle.AddField(panel, "Abertura", _abertura, 1);
-            UiStyle.AddField(panel, "Status", _status, 2);
-            panel.Controls.Add(UiStyle.Fill(_usarConclusao), 1, 3);
-            UiStyle.AddField(panel, "Conclusao", _conclusao, 4);
-            UiStyle.AddField(panel, "Observacao", _observacao, 5);
-
-            var actions = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = false };
-            actions.Controls.Add(UiStyle.Button("Salvar OS", Salvar, 110));
-            panel.Controls.Add(actions, 0, 6);
-            panel.SetColumnSpan(actions, 2);
-            group.Controls.Add(panel);
-            return group;
         }
 
-        private Control CriarItens()
+        private void PesquisarButton_Click(object sender, EventArgs e)
         {
-            var group = UiStyle.GroupBox("Itens da ordem");
-            var panel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
-            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-
-            var topo = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 6, RowCount = 1 };
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 64));
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 42));
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104));
-            topo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104));
-            _servicoItem.DropDownStyle = ComboBoxStyle.DropDownList;
-            _quantidade.DecimalPlaces = 2;
-            _quantidade.Minimum = 1;
-            _quantidade.Maximum = 999;
-            _quantidade.Increment = 1;
-            _quantidade.ThousandsSeparator = true;
-            _quantidade.Value = 1;
-            topo.Controls.Add(UiStyle.Label("Servico"), 0, 0);
-            topo.Controls.Add(UiStyle.Fill(_servicoItem), 1, 0);
-            topo.Controls.Add(UiStyle.Label("Qtd"), 2, 0);
-            topo.Controls.Add(UiStyle.Fill(_quantidade), 3, 0);
-            _adicionarItemButton = UiStyle.Button("Adicionar", AdicionarItem);
-            _removerItemButton = UiStyle.Button("Remover", RemoverItem);
-            topo.Controls.Add(_adicionarItemButton, 4, 0);
-            topo.Controls.Add(_removerItemButton, 5, 0);
-
-            UiStyle.ConfigureGrid(_itensGrid);
-            CriarColunasItensGrid();
-            _itensGrid.DataSource = _itens;
-            panel.Controls.Add(topo, 0, 0);
-            panel.Controls.Add(_itensGrid, 0, 1);
-            group.Controls.Add(panel);
-            return group;
+            Pesquisar();
         }
 
-        private void CriarColunasItensGrid()
+        private void NovaButton_Click(object sender, EventArgs e)
         {
-            _itensGrid.Columns.Clear();
-            _itensGrid.Columns.Add(UiStyle.TextColumn("ServicoId", "Servico", 85, null, DataGridViewContentAlignment.MiddleRight));
-            _itensGrid.Columns.Add(UiStyle.TextColumn("Quantidade", "Qtd", 80, "N2", DataGridViewContentAlignment.MiddleRight));
-            _itensGrid.Columns.Add(UiStyle.TextColumn("ValorUnitario", "Valor unitario", 110, "C2", DataGridViewContentAlignment.MiddleRight));
-            _itensGrid.Columns.Add(UiStyle.TextColumn("PercentualImpostoAplicado", "Imposto %", 95, "N2", DataGridViewContentAlignment.MiddleRight));
-            _itensGrid.Columns.Add(UiStyle.TextColumn("ValorTotalItem", "Total", 110, "C2", DataGridViewContentAlignment.MiddleRight));
+            Limpar();
+        }
+
+        private void AnteriorButton_Click(object sender, EventArgs e)
+        {
+            PaginaAnterior();
+        }
+
+        private void ProximaButton_Click(object sender, EventArgs e)
+        {
+            ProximaPagina();
+        }
+
+        private void AdicionarItemButton_Click(object sender, EventArgs e)
+        {
+            AdicionarItem();
+        }
+
+        private void RemoverItemButton_Click(object sender, EventArgs e)
+        {
+            RemoverItem();
+        }
+
+        private void SalvarButton_Click(object sender, EventArgs e)
+        {
+            Salvar();
         }
 
         private void CarregarCombos()

@@ -64,6 +64,7 @@
     <Compile Include="RelatorioFiltroTests.cs" />
     <Compile Include="RelatorioOrdemServicoTests.cs" />
     <Compile Include="RelatorioRdlcTests.cs" />
+    <Compile Include="WinFormsDesignerStructureTests.cs" />
     <Compile Include="OrdemServicoRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
