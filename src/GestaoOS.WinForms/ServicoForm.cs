@@ -7,132 +7,100 @@ using GestaoOS.Domain.Filters;
 
 namespace GestaoOS.WinForms
 {
-    public class ServicoForm : Form
+    public partial class ServicoForm : Form
     {
-        private readonly TextBox _filtroNome = new TextBox();
-        private readonly ComboBox _filtroAtivo = new ComboBox();
-        private readonly DataGridView _grid = new DataGridView();
-        private readonly TextBox _nome = new TextBox();
-        private readonly NumericUpDown _valorBase = new NumericUpDown();
-        private readonly NumericUpDown _percentualImposto = new NumericUpDown();
-        private readonly CheckBox _ativo = new CheckBox();
-        private readonly Label _paginaLabel = new Label();
         private int _idAtual;
         private int _pagina = 1;
         private int _totalPaginas = 1;
 
         public ServicoForm()
         {
-            Text = "Servicos";
-            StartPosition = FormStartPosition.CenterParent;
-            UiStyle.ApplyForm(this, new Size(980, 660), new Size(880, 580));
-            BuildLayout();
+            InitializeComponent();
+            ConectarEventos();
+            ConfigurarColunasGrid();
+            if (UiStyle.IsDesignMode(this))
+            {
+                return;
+            }
+            _filtroAtivo.SelectedIndex = 0;
             Carregar();
         }
 
-        private void BuildLayout()
+        private void ConectarEventos()
         {
-            var root = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 3, ColumnCount = 1 };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 122));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 185));
-
-            var filtros = CriarFiltros();
-            UiStyle.ConfigureGrid(_grid);
-            CriarColunasGrid();
-            _grid.SelectionChanged += (s, e) => SelecionarAtual();
-
-            _valorBase.DecimalPlaces = 2;
-            _valorBase.Maximum = 9999999;
-            _valorBase.Minimum = 0;
-            _valorBase.Increment = 10;
-            _valorBase.ThousandsSeparator = true;
-            _percentualImposto.DecimalPlaces = 2;
-            _percentualImposto.Maximum = 100;
-            _percentualImposto.Minimum = 0;
-            _percentualImposto.Increment = 0.5m;
-
-            var editorGroup = UiStyle.GroupBox("Dados do servico");
-            var editor = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 4, RowCount = 3 };
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
-            editor.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            editor.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            editor.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            _filtroNome.MaxLength = 150;
-            _nome.MaxLength = 150;
-            UiStyle.AddField(editor, "Nome", _nome, 0, 0);
-            UiStyle.AddField(editor, "Valor base", _valorBase, 2, 0);
-            UiStyle.AddField(editor, "Imposto %", _percentualImposto, 0, 1);
-            _ativo.Text = "Ativo";
-            _ativo.Checked = true;
-            _ativo.Dock = DockStyle.Fill;
-            editor.Controls.Add(_ativo, 2, 1);
-            var actions = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = false };
-            actions.Controls.Add(UiStyle.Button("Salvar", Salvar));
-            editor.Controls.Add(actions, 0, 2);
-            editor.SetColumnSpan(actions, 4);
-            editorGroup.Controls.Add(editor);
-
-            root.Controls.Add(filtros, 0, 0);
-            root.Controls.Add(_grid, 0, 1);
-            root.Controls.Add(editorGroup, 0, 2);
-            Controls.Add(root);
+            _grid.SelectionChanged += Grid_SelectionChanged;
+            _grid.DataError += Grid_DataError;
+            _pesquisarButton.Click += PesquisarButton_Click;
+            _novoButton.Click += NovoButton_Click;
+            _anteriorButton.Click += AnteriorButton_Click;
+            _proximaButton.Click += ProximaButton_Click;
+            _salvarButton.Click += SalvarButton_Click;
         }
 
-        private Control CriarFiltros()
-        {
-            var group = UiStyle.GroupBox("Pesquisa");
-            var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 6, RowCount = 2 };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
-
-            _filtroAtivo.DropDownStyle = ComboBoxStyle.DropDownList;
-            _filtroAtivo.Items.AddRange(new object[] { "Todos", "Ativos", "Inativos" });
-            _filtroAtivo.SelectedIndex = 0;
-
-            UiStyle.AddField(layout, "Nome", _filtroNome, 0, 0);
-            UiStyle.AddField(layout, "Ativo", _filtroAtivo, 2, 0);
-            layout.Controls.Add(UiStyle.Button("Pesquisar", Pesquisar), 4, 0);
-            layout.Controls.Add(UiStyle.Button("Novo", Limpar), 5, 0);
-
-            var pager = CriarPaginacao();
-            layout.Controls.Add(pager, 0, 1);
-            layout.SetColumnSpan(pager, 6);
-            group.Controls.Add(layout);
-            return group;
-        }
-
-        private Control CriarPaginacao()
-        {
-            var pager = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 3, RowCount = 1 };
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            pager.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            _paginaLabel.Dock = DockStyle.Fill;
-            _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
-            pager.Controls.Add(_paginaLabel, 0, 0);
-            pager.Controls.Add(UiStyle.PagerButton("Anterior", PaginaAnterior), 1, 0);
-            pager.Controls.Add(UiStyle.PagerButton("Proxima", ProximaPagina), 2, 0);
-            return pager;
-        }
-
-        private void CriarColunasGrid()
+        private void ConfigurarColunasGrid()
         {
             _grid.Columns.Clear();
-            _grid.Columns.Add(UiStyle.TextColumn("Id", "Id", 60, null, DataGridViewContentAlignment.MiddleRight));
-            _grid.Columns.Add(UiStyle.TextColumn("Nome", "Nome", 220));
-            _grid.Columns.Add(UiStyle.TextColumn("ValorBase", "Valor base", 110, "C2", DataGridViewContentAlignment.MiddleRight));
-            _grid.Columns.Add(UiStyle.TextColumn("PercentualImposto", "Imposto %", 95, "N2", DataGridViewContentAlignment.MiddleRight));
-            _grid.Columns.Add(new DataGridViewCheckBoxColumn { DataPropertyName = "Ativo", HeaderText = "Ativo", FillWeight = 70, MinimumWidth = 60 });
+            _idColumn = _idColumn ?? new DataGridViewTextBoxColumn();
+            _nomeColumn = _nomeColumn ?? new DataGridViewTextBoxColumn();
+            _valorBaseColumn = _valorBaseColumn ?? new DataGridViewTextBoxColumn();
+            _percentualImpostoColumn = _percentualImpostoColumn ?? new DataGridViewTextBoxColumn();
+            _ativoColumn = _ativoColumn ?? new DataGridViewCheckBoxColumn();
+            ConfigurarColunaTexto(_idColumn, "Id", "Id", 60, null, DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_nomeColumn, "Nome", "Nome", 220, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_valorBaseColumn, "ValorBase", "Valor base", 110, "C2", DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_percentualImpostoColumn, "PercentualImposto", "Imposto %", 95, "N2", DataGridViewContentAlignment.MiddleRight);
+            _ativoColumn.DataPropertyName = "Ativo";
+            _ativoColumn.HeaderText = "Ativo";
+            _ativoColumn.FillWeight = 70;
+            _ativoColumn.MinimumWidth = 60;
+            _grid.Columns.AddRange(new DataGridViewColumn[] { _idColumn, _nomeColumn, _valorBaseColumn, _percentualImpostoColumn, _ativoColumn });
+        }
+
+        private static void ConfigurarColunaTexto(DataGridViewTextBoxColumn column, string propertyName, string headerText, int fillWeight, string format, DataGridViewContentAlignment alignment)
+        {
+            column.DataPropertyName = propertyName;
+            column.HeaderText = headerText;
+            column.FillWeight = fillWeight;
+            column.MinimumWidth = Math.Min(70, Math.Max(45, fillWeight));
+            column.DefaultCellStyle.Alignment = alignment;
+            column.DefaultCellStyle.Format = format;
+            column.DefaultCellStyle.NullValue = string.Empty;
+        }
+
+        private void Grid_SelectionChanged(object sender, EventArgs e)
+        {
+            SelecionarAtual();
+        }
+
+        private void Grid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+            e.Cancel = true;
+        }
+
+        private void PesquisarButton_Click(object sender, EventArgs e)
+        {
+            Pesquisar();
+        }
+
+        private void NovoButton_Click(object sender, EventArgs e)
+        {
+            Limpar();
+        }
+
+        private void AnteriorButton_Click(object sender, EventArgs e)
+        {
+            PaginaAnterior();
+        }
+
+        private void ProximaButton_Click(object sender, EventArgs e)
+        {
+            ProximaPagina();
+        }
+
+        private void SalvarButton_Click(object sender, EventArgs e)
+        {
+            Salvar();
         }
 
         private void Carregar()
@@ -142,7 +110,7 @@ namespace GestaoOS.WinForms
                 var filtro = new ServicoFiltro
                 {
                     Nome = _filtroNome.Text,
-                    Ativo = _filtroAtivo.SelectedIndex == 0 ? (bool?)null : _filtroAtivo.SelectedIndex == 1
+                    Ativo = ResolverFiltroAtivo(_filtroAtivo.SelectedIndex)
                 };
                 var resultado = Bootstrapper.ServicoService().Pesquisar(filtro, new Paginacao { Pagina = _pagina, TamanhoPagina = 20 });
                 var totalPaginas = Math.Max(1, (int)Math.Ceiling(resultado.Total / 20m));
@@ -163,6 +131,21 @@ namespace GestaoOS.WinForms
         {
             _pagina = 1;
             Carregar();
+        }
+
+        private static bool? ResolverFiltroAtivo(int selectedIndex)
+        {
+            if (selectedIndex == 1)
+            {
+                return true;
+            }
+
+            if (selectedIndex == 2)
+            {
+                return false;
+            }
+
+            return null;
         }
 
         private void PaginaAnterior()
@@ -263,6 +246,5 @@ namespace GestaoOS.WinForms
 
             return true;
         }
-
     }
 }

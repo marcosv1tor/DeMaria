@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -19,6 +20,12 @@ namespace GestaoOS.WinForms
             form.MinimumSize = minimumSize;
             form.Padding = new Padding(10);
             ApplyApplicationIcon(form);
+        }
+
+        public static bool IsDesignMode(Control control)
+        {
+            return LicenseManager.UsageMode == LicenseUsageMode.Designtime
+                || (control.Site != null && control.Site.DesignMode);
         }
 
         public static Button Button(string text, Action action)
