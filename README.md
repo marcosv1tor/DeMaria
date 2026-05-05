@@ -60,7 +60,7 @@ O usuario gravado e `Environment.UserName`.
 
 ## Relatorios
 
-A tela de relatorio permite filtrar por periodo, cliente e status. O ReportViewer usa a projecao `RelatorioOrdemServico`, exibe totais e permite exportar PDF.
+A tela de relatorio permite filtrar opcionalmente por periodo, cliente e status. O ReportViewer usa a projecao `RelatorioOrdemServico`, agrupa os dados por cliente, exibe total por cliente, total geral, total de impostos, quantidade de OS e permite exportar PDF.
 
 ## Como Rodar
 
@@ -75,8 +75,6 @@ Comandos de validacao usados no desenvolvimento:
 
 ```powershell
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' GestaoOS.sln /t:Restore /v:minimal
-& 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' GestaoOS.sln /p:Configuration=Debug /p:FrameworkPathOverride='C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2' /v:minimal
+& 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' GestaoOS.sln /p:Configuration=Release /v:minimal
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' tests\GestaoOS.Tests\bin\Debug\GestaoOS.Tests.dll
 ```
-
-Observacao: nesta maquina o diretorio de referencia `v4.6` existe, mas esta incompleto, sem as DLLs do targeting pack. Por isso a compilacao local foi validada com `FrameworkPathOverride` apontando para os assemblies disponiveis de `v4.7.2`, mantendo todos os projetos configurados como `.NET Framework 4.6`.

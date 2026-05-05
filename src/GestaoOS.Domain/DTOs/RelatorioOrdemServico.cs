@@ -10,6 +10,7 @@ namespace GestaoOS.Domain.DTOs
         public int OrdemServicoId { get; set; }
         public DateTime DataAbertura { get; set; }
         public StatusOrdemServico Status { get; set; }
+        public string StatusDescricao { get { return Status.ToString(); } }
         public decimal ValorTotal { get; set; }
         public decimal TotalImpostos { get; set; }
         public int QuantidadeOrdens { get; set; }

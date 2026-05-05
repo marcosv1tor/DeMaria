@@ -18,6 +18,7 @@ namespace GestaoOS.WinForms
         private readonly ComboBox _status = new ComboBox();
         private readonly DateTimePicker _inicio = new DateTimePicker();
         private readonly DateTimePicker _fim = new DateTimePicker();
+        private readonly CheckBox _usarPeriodo = new CheckBox();
         private readonly ReportViewer _viewer = new ReportViewer();
         private readonly Label _resumo = new Label();
         private BindingList<RelatorioOrdemServico> _dados = new BindingList<RelatorioOrdemServico>();
@@ -56,7 +57,8 @@ namespace GestaoOS.WinForms
         private Control CriarFiltros()
         {
             var group = UiStyle.GroupBox("Filtros do relatorio");
-            var filtros = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 10, RowCount = 1 };
+            var filtros = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 11, RowCount = 1 };
+            filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 82));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 45));
@@ -68,21 +70,25 @@ namespace GestaoOS.WinForms
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
             filtros.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
 
+            _usarPeriodo.Text = "Periodo";
+            _usarPeriodo.Dock = DockStyle.Fill;
+            _usarPeriodo.CheckedChanged += (s, e) => AtualizarPeriodo();
             _inicio.Format = DateTimePickerFormat.Short;
             _fim.Format = DateTimePickerFormat.Short;
             _cliente.DropDownStyle = ComboBoxStyle.DropDownList;
             _status.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            filtros.Controls.Add(UiStyle.Label("Inicio"), 0, 0);
-            filtros.Controls.Add(UiStyle.Fill(_inicio), 1, 0);
-            filtros.Controls.Add(UiStyle.Label("Fim"), 2, 0);
-            filtros.Controls.Add(UiStyle.Fill(_fim), 3, 0);
-            filtros.Controls.Add(UiStyle.Label("Cliente"), 4, 0);
-            filtros.Controls.Add(UiStyle.Fill(_cliente), 5, 0);
-            filtros.Controls.Add(UiStyle.Label("Status"), 6, 0);
-            filtros.Controls.Add(UiStyle.Fill(_status), 7, 0);
-            filtros.Controls.Add(UiStyle.Button("Gerar", Gerar), 8, 0);
-            filtros.Controls.Add(UiStyle.Button("PDF", ExportarPdf), 9, 0);
+            filtros.Controls.Add(UiStyle.Fill(_usarPeriodo), 0, 0);
+            filtros.Controls.Add(UiStyle.Label("Inicio"), 1, 0);
+            filtros.Controls.Add(UiStyle.Fill(_inicio), 2, 0);
+            filtros.Controls.Add(UiStyle.Label("Fim"), 3, 0);
+            filtros.Controls.Add(UiStyle.Fill(_fim), 4, 0);
+            filtros.Controls.Add(UiStyle.Label("Cliente"), 5, 0);
+            filtros.Controls.Add(UiStyle.Fill(_cliente), 6, 0);
+            filtros.Controls.Add(UiStyle.Label("Status"), 7, 0);
+            filtros.Controls.Add(UiStyle.Fill(_status), 8, 0);
+            filtros.Controls.Add(UiStyle.Button("Gerar", Gerar), 9, 0);
+            filtros.Controls.Add(UiStyle.Button("PDF", ExportarPdf), 10, 0);
             group.Controls.Add(filtros);
             return group;
         }
@@ -105,6 +111,8 @@ namespace GestaoOS.WinForms
                 _status.SelectedIndex = 0;
                 _inicio.Value = DateTime.Today.AddMonths(-1);
                 _fim.Value = DateTime.Today;
+                _usarPeriodo.Checked = false;
+                AtualizarPeriodo();
             });
         }
 
@@ -117,13 +125,7 @@ namespace GestaoOS.WinForms
                     return;
                 }
 
-                var filtro = new OrdemServicoFiltro
-                {
-                    DataInicio = _inicio.Value.Date,
-                    DataFim = _fim.Value.Date,
-                    ClienteId = _cliente.SelectedValue is int ? (int?)_cliente.SelectedValue : null,
-                    Status = _status.SelectedItem is StatusOrdemServico ? (StatusOrdemServico?)_status.SelectedItem : null
-                };
+                var filtro = RelatorioFiltroFactory.Criar(_inicio.Value, _fim.Value, _usarPeriodo.Checked, _cliente.SelectedValue, _status.SelectedItem);
 
                 _dados = new BindingList<RelatorioOrdemServico>(new System.Collections.Generic.List<RelatorioOrdemServico>(Bootstrapper.RelatorioService().GerarOrdensServico(filtro)));
                 _viewer.LocalReport.ReportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports", "OrdensServicoReport.rdlc");
@@ -165,7 +167,7 @@ namespace GestaoOS.WinForms
 
         private bool EntradaValida()
         {
-            if (_inicio.Value.Date > _fim.Value.Date)
+            if (_usarPeriodo.Checked && _inicio.Value.Date > _fim.Value.Date)
             {
                 MessageBox.Show("A data Inicio nao pode ser maior que a data Fim.", "Validacao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _inicio.Focus();
@@ -173,6 +175,12 @@ namespace GestaoOS.WinForms
             }
 
             return true;
+        }
+
+        private void AtualizarPeriodo()
+        {
+            _inicio.Enabled = _usarPeriodo.Checked;
+            _fim.Enabled = _usarPeriodo.Checked;
         }
 
     }

@@ -79,6 +79,7 @@
     <Compile Include="RelatorioOrdensForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RelatorioFiltroFactory.cs" />
     <Compile Include="ServicoForm.cs">
       <SubType>Form</SubType>
     </Compile>
