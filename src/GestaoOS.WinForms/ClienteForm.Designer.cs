@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -58,348 +58,506 @@ namespace GestaoOS.WinForms
 
         private void InitializeComponent()
         {
-            components = new Container();
-            _root = new TableLayoutPanel();
-            _filtrosGroup = new GroupBox();
-            _filtrosLayout = new TableLayoutPanel();
-            _pagerLayout = new TableLayoutPanel();
-            _editorGroup = new GroupBox();
-            _editorLayout = new TableLayoutPanel();
-            _actionsPanel = new FlowLayoutPanel();
-            _filtroNomeLabel = new Label();
-            _filtroDocumentoLabel = new Label();
-            _filtroAtivoLabel = new Label();
-            _nomeLabel = new Label();
-            _documentoLabel = new Label();
-            _tipoLabel = new Label();
-            _emailLabel = new Label();
-            _telefoneLabel = new Label();
-            _pesquisarButton = new Button();
-            _novoButton = new Button();
-            _anteriorButton = new Button();
-            _proximaButton = new Button();
-            _excluirButton = new Button();
-            _salvarButton = new Button();
-            _filtroNome = new TextBox();
-            _filtroDocumento = new TextBox();
-            _filtroAtivo = new ComboBox();
-            _grid = new DataGridView();
-            _nome = new TextBox();
-            _documento = new MaskedTextBox();
-            _tipo = new ComboBox();
-            _email = new TextBox();
-            _telefone = new MaskedTextBox();
-            _ativo = new CheckBox();
-            _paginaLabel = new Label();
-            _idColumn = new DataGridViewTextBoxColumn();
-            _nomeColumn = new DataGridViewTextBoxColumn();
-            _documentoColumn = new DataGridViewTextBoxColumn();
-            _tipoColumn = new DataGridViewTextBoxColumn();
-            _emailColumn = new DataGridViewTextBoxColumn();
-            _telefoneColumn = new DataGridViewTextBoxColumn();
-            _ativoColumn = new DataGridViewCheckBoxColumn();
-            ((ISupportInitialize)_grid).BeginInit();
-            SuspendLayout();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClienteForm));
+            this._root = new System.Windows.Forms.TableLayoutPanel();
+            this._filtrosGroup = new System.Windows.Forms.GroupBox();
+            this._filtrosLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._filtroNomeLabel = new System.Windows.Forms.Label();
+            this._filtroNome = new System.Windows.Forms.TextBox();
+            this._filtroDocumentoLabel = new System.Windows.Forms.Label();
+            this._filtroDocumento = new System.Windows.Forms.TextBox();
+            this._filtroAtivoLabel = new System.Windows.Forms.Label();
+            this._filtroAtivo = new System.Windows.Forms.ComboBox();
+            this._pesquisarButton = new System.Windows.Forms.Button();
+            this._novoButton = new System.Windows.Forms.Button();
+            this._pagerLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._paginaLabel = new System.Windows.Forms.Label();
+            this._anteriorButton = new System.Windows.Forms.Button();
+            this._proximaButton = new System.Windows.Forms.Button();
+            this._grid = new System.Windows.Forms.DataGridView();
+            this._editorGroup = new System.Windows.Forms.GroupBox();
+            this._editorLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._nomeLabel = new System.Windows.Forms.Label();
+            this._nome = new System.Windows.Forms.TextBox();
+            this._documentoLabel = new System.Windows.Forms.Label();
+            this._documento = new System.Windows.Forms.MaskedTextBox();
+            this._tipoLabel = new System.Windows.Forms.Label();
+            this._tipo = new System.Windows.Forms.ComboBox();
+            this._emailLabel = new System.Windows.Forms.Label();
+            this._email = new System.Windows.Forms.TextBox();
+            this._telefoneLabel = new System.Windows.Forms.Label();
+            this._telefone = new System.Windows.Forms.MaskedTextBox();
+            this._ativo = new System.Windows.Forms.CheckBox();
+            this._actionsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._excluirButton = new System.Windows.Forms.Button();
+            this._salvarButton = new System.Windows.Forms.Button();
+            this._root.SuspendLayout();
+            this._filtrosGroup.SuspendLayout();
+            this._filtrosLayout.SuspendLayout();
+            this._pagerLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
+            this._editorGroup.SuspendLayout();
+            this._editorLayout.SuspendLayout();
+            this._actionsPanel.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // _root
+            // 
+            this._root.ColumnCount = 1;
+            this._root.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._root.Controls.Add(this._filtrosGroup, 0, 0);
+            this._root.Controls.Add(this._grid, 0, 1);
+            this._root.Controls.Add(this._editorGroup, 0, 2);
+            this._root.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._root.Location = new System.Drawing.Point(10, 10);
+            this._root.Name = "_root";
+            this._root.RowCount = 3;
+            this._root.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 122F));
+            this._root.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._root.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
+            this._root.Size = new System.Drawing.Size(1481, 705);
+            this._root.TabIndex = 0;
+            // 
+            // _filtrosGroup
+            // 
+            this._filtrosGroup.BackColor = System.Drawing.Color.White;
+            this._filtrosGroup.Controls.Add(this._filtrosLayout);
+            this._filtrosGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtrosGroup.Location = new System.Drawing.Point(3, 3);
+            this._filtrosGroup.Name = "_filtrosGroup";
+            this._filtrosGroup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this._filtrosGroup.Size = new System.Drawing.Size(1475, 116);
+            this._filtrosGroup.TabIndex = 0;
+            this._filtrosGroup.TabStop = false;
+            this._filtrosGroup.Text = "Pesquisa";
+            // 
+            // _filtrosLayout
+            // 
+            this._filtrosLayout.ColumnCount = 8;
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this._filtrosLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this._filtrosLayout.Controls.Add(this._filtroNomeLabel, 0, 0);
+            this._filtrosLayout.Controls.Add(this._filtroNome, 1, 0);
+            this._filtrosLayout.Controls.Add(this._filtroDocumentoLabel, 2, 0);
+            this._filtrosLayout.Controls.Add(this._filtroDocumento, 3, 0);
+            this._filtrosLayout.Controls.Add(this._filtroAtivoLabel, 4, 0);
+            this._filtrosLayout.Controls.Add(this._filtroAtivo, 5, 0);
+            this._filtrosLayout.Controls.Add(this._pesquisarButton, 6, 0);
+            this._filtrosLayout.Controls.Add(this._novoButton, 7, 0);
+            this._filtrosLayout.Controls.Add(this._pagerLayout, 0, 1);
+            this._filtrosLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtrosLayout.Location = new System.Drawing.Point(10, 32);
+            this._filtrosLayout.Name = "_filtrosLayout";
+            this._filtrosLayout.RowCount = 2;
+            this._filtrosLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this._filtrosLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this._filtrosLayout.Size = new System.Drawing.Size(1455, 74);
+            this._filtrosLayout.TabIndex = 0;
+            // 
+            // _filtroNomeLabel
+            // 
+            this._filtroNomeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroNomeLabel.Location = new System.Drawing.Point(3, 3);
+            this._filtroNomeLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._filtroNomeLabel.Name = "_filtroNomeLabel";
+            this._filtroNomeLabel.Size = new System.Drawing.Size(51, 32);
+            this._filtroNomeLabel.TabIndex = 0;
+            this._filtroNomeLabel.Text = "Nome";
+            this._filtroNomeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _filtroNome
+            // 
+            this._filtroNome.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroNome.Location = new System.Drawing.Point(63, 3);
+            this._filtroNome.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._filtroNome.MaxLength = 150;
+            this._filtroNome.Name = "_filtroNome";
+            this._filtroNome.Size = new System.Drawing.Size(462, 31);
+            this._filtroNome.TabIndex = 1;
+            // 
+            // _filtroDocumentoLabel
+            // 
+            this._filtroDocumentoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroDocumentoLabel.Location = new System.Drawing.Point(536, 3);
+            this._filtroDocumentoLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._filtroDocumentoLabel.Name = "_filtroDocumentoLabel";
+            this._filtroDocumentoLabel.Size = new System.Drawing.Size(86, 32);
+            this._filtroDocumentoLabel.TabIndex = 2;
+            this._filtroDocumentoLabel.Text = "Documento";
+            this._filtroDocumentoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _filtroDocumento
+            // 
+            this._filtroDocumento.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroDocumento.Location = new System.Drawing.Point(631, 3);
+            this._filtroDocumento.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._filtroDocumento.MaxLength = 14;
+            this._filtroDocumento.Name = "_filtroDocumento";
+            this._filtroDocumento.Size = new System.Drawing.Size(402, 31);
+            this._filtroDocumento.TabIndex = 3;
+            // 
+            // _filtroAtivoLabel
+            // 
+            this._filtroAtivoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroAtivoLabel.Location = new System.Drawing.Point(1044, 3);
+            this._filtroAtivoLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._filtroAtivoLabel.Name = "_filtroAtivoLabel";
+            this._filtroAtivoLabel.Size = new System.Drawing.Size(46, 32);
+            this._filtroAtivoLabel.TabIndex = 4;
+            this._filtroAtivoLabel.Text = "Ativo";
+            this._filtroAtivoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _filtroAtivo
+            // 
+            this._filtroAtivo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._filtroAtivo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._filtroAtivo.Items.AddRange(new object[] {
+            "Todos",
+            "Ativos",
+            "Inativos"});
+            this._filtroAtivo.Location = new System.Drawing.Point(1099, 3);
+            this._filtroAtivo.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._filtroAtivo.Name = "_filtroAtivo";
+            this._filtroAtivo.Size = new System.Drawing.Size(139, 33);
+            this._filtroAtivo.TabIndex = 5;
+            // 
+            // _pesquisarButton
+            // 
+            this._pesquisarButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._pesquisarButton.Location = new System.Drawing.Point(1250, 4);
+            this._pesquisarButton.Margin = new System.Windows.Forms.Padding(4);
+            this._pesquisarButton.Name = "_pesquisarButton";
+            this._pesquisarButton.Size = new System.Drawing.Size(96, 30);
+            this._pesquisarButton.TabIndex = 6;
+            this._pesquisarButton.Text = "Pesquisar";
+            this._pesquisarButton.UseVisualStyleBackColor = true;
+            // 
+            // _novoButton
+            // 
+            this._novoButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._novoButton.Location = new System.Drawing.Point(1358, 4);
+            this._novoButton.Margin = new System.Windows.Forms.Padding(4);
+            this._novoButton.Name = "_novoButton";
+            this._novoButton.Size = new System.Drawing.Size(93, 30);
+            this._novoButton.TabIndex = 7;
+            this._novoButton.Text = "Novo";
+            this._novoButton.UseVisualStyleBackColor = true;
+            // 
+            // _pagerLayout
+            // 
+            this._pagerLayout.ColumnCount = 3;
+            this._filtrosLayout.SetColumnSpan(this._pagerLayout, 8);
+            this._pagerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._pagerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this._pagerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this._pagerLayout.Controls.Add(this._paginaLabel, 0, 0);
+            this._pagerLayout.Controls.Add(this._anteriorButton, 1, 0);
+            this._pagerLayout.Controls.Add(this._proximaButton, 2, 0);
+            this._pagerLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pagerLayout.Location = new System.Drawing.Point(3, 41);
+            this._pagerLayout.Name = "_pagerLayout";
+            this._pagerLayout.RowCount = 1;
+            this._pagerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._pagerLayout.Size = new System.Drawing.Size(1449, 38);
+            this._pagerLayout.TabIndex = 8;
+            // 
+            // _paginaLabel
+            // 
+            this._paginaLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._paginaLabel.Location = new System.Drawing.Point(3, 0);
+            this._paginaLabel.Name = "_paginaLabel";
+            this._paginaLabel.Size = new System.Drawing.Size(1251, 38);
+            this._paginaLabel.TabIndex = 0;
+            this._paginaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _anteriorButton
+            // 
+            this._anteriorButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._anteriorButton.Location = new System.Drawing.Point(1261, 2);
+            this._anteriorButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 8);
+            this._anteriorButton.Name = "_anteriorButton";
+            this._anteriorButton.Size = new System.Drawing.Size(88, 28);
+            this._anteriorButton.TabIndex = 1;
+            this._anteriorButton.Text = "Anterior";
+            this._anteriorButton.UseVisualStyleBackColor = true;
+            // 
+            // _proximaButton
+            // 
+            this._proximaButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._proximaButton.Location = new System.Drawing.Point(1357, 2);
+            this._proximaButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 8);
+            this._proximaButton.Name = "_proximaButton";
+            this._proximaButton.Size = new System.Drawing.Size(88, 28);
+            this._proximaButton.TabIndex = 2;
+            this._proximaButton.Text = "Proxima";
+            this._proximaButton.UseVisualStyleBackColor = true;
+            // 
+            // _grid
+            // 
+            this._grid.AllowUserToAddRows = false;
+            this._grid.AllowUserToDeleteRows = false;
+            this._grid.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(251)))), ((int)(((byte)(252)))));
+            this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this._grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._grid.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(241)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this._grid.ColumnHeadersHeight = 32;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._grid.DefaultCellStyle = dataGridViewCellStyle3;
+            this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._grid.EnableHeadersVisualStyles = false;
+            this._grid.Location = new System.Drawing.Point(3, 125);
+            this._grid.MultiSelect = false;
+            this._grid.Name = "_grid";
+            this._grid.ReadOnly = true;
+            this._grid.RowHeadersVisible = false;
+            this._grid.RowHeadersWidth = 62;
+            this._grid.RowTemplate.Height = 28;
+            this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._grid.Size = new System.Drawing.Size(1475, 357);
+            this._grid.TabIndex = 1;
+            // 
+            // _editorGroup
+            // 
+            this._editorGroup.BackColor = System.Drawing.Color.White;
+            this._editorGroup.Controls.Add(this._editorLayout);
+            this._editorGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._editorGroup.Location = new System.Drawing.Point(3, 488);
+            this._editorGroup.Name = "_editorGroup";
+            this._editorGroup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this._editorGroup.Size = new System.Drawing.Size(1475, 214);
+            this._editorGroup.TabIndex = 2;
+            this._editorGroup.TabStop = false;
+            this._editorGroup.Text = "Dados do cliente";
+            // 
+            // _editorLayout
+            // 
+            this._editorLayout.ColumnCount = 4;
+            this._editorLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this._editorLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._editorLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this._editorLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._editorLayout.Controls.Add(this._nomeLabel, 0, 0);
+            this._editorLayout.Controls.Add(this._nome, 1, 0);
+            this._editorLayout.Controls.Add(this._documentoLabel, 2, 0);
+            this._editorLayout.Controls.Add(this._documento, 3, 0);
+            this._editorLayout.Controls.Add(this._tipoLabel, 0, 1);
+            this._editorLayout.Controls.Add(this._tipo, 1, 1);
+            this._editorLayout.Controls.Add(this._emailLabel, 2, 1);
+            this._editorLayout.Controls.Add(this._email, 3, 1);
+            this._editorLayout.Controls.Add(this._telefoneLabel, 0, 2);
+            this._editorLayout.Controls.Add(this._telefone, 1, 2);
+            this._editorLayout.Controls.Add(this._ativo, 2, 2);
+            this._editorLayout.Controls.Add(this._actionsPanel, 0, 3);
+            this._editorLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._editorLayout.Location = new System.Drawing.Point(10, 32);
+            this._editorLayout.Name = "_editorLayout";
+            this._editorLayout.RowCount = 4;
+            this._editorLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this._editorLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this._editorLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this._editorLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._editorLayout.Size = new System.Drawing.Size(1455, 172);
+            this._editorLayout.TabIndex = 0;
+            // 
+            // _nomeLabel
+            // 
+            this._nomeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._nomeLabel.Location = new System.Drawing.Point(3, 3);
+            this._nomeLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._nomeLabel.Name = "_nomeLabel";
+            this._nomeLabel.Size = new System.Drawing.Size(81, 28);
+            this._nomeLabel.TabIndex = 0;
+            this._nomeLabel.Text = "Nome";
+            this._nomeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _nome
+            // 
+            this._nome.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._nome.Location = new System.Drawing.Point(93, 3);
+            this._nome.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._nome.MaxLength = 150;
+            this._nome.Name = "_nome";
+            this._nome.Size = new System.Drawing.Size(626, 31);
+            this._nome.TabIndex = 1;
+            // 
+            // _documentoLabel
+            // 
+            this._documentoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._documentoLabel.Location = new System.Drawing.Point(730, 3);
+            this._documentoLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._documentoLabel.Name = "_documentoLabel";
+            this._documentoLabel.Size = new System.Drawing.Size(81, 28);
+            this._documentoLabel.TabIndex = 2;
+            this._documentoLabel.Text = "Documento";
+            this._documentoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _documento
+            // 
+            this._documento.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._documento.Location = new System.Drawing.Point(820, 3);
+            this._documento.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._documento.Name = "_documento";
+            this._documento.Size = new System.Drawing.Size(627, 31);
+            this._documento.TabIndex = 3;
+            this._documento.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            // 
+            // _tipoLabel
+            // 
+            this._tipoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tipoLabel.Location = new System.Drawing.Point(3, 37);
+            this._tipoLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._tipoLabel.Name = "_tipoLabel";
+            this._tipoLabel.Size = new System.Drawing.Size(81, 28);
+            this._tipoLabel.TabIndex = 4;
+            this._tipoLabel.Text = "Tipo";
+            this._tipoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _tipo
+            // 
+            this._tipo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._tipo.Location = new System.Drawing.Point(93, 37);
+            this._tipo.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._tipo.Name = "_tipo";
+            this._tipo.Size = new System.Drawing.Size(626, 33);
+            this._tipo.TabIndex = 5;
+            // 
+            // _emailLabel
+            // 
+            this._emailLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._emailLabel.Location = new System.Drawing.Point(730, 37);
+            this._emailLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._emailLabel.Name = "_emailLabel";
+            this._emailLabel.Size = new System.Drawing.Size(81, 28);
+            this._emailLabel.TabIndex = 6;
+            this._emailLabel.Text = "E-mail";
+            this._emailLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _email
+            // 
+            this._email.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._email.Location = new System.Drawing.Point(820, 37);
+            this._email.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._email.MaxLength = 150;
+            this._email.Name = "_email";
+            this._email.Size = new System.Drawing.Size(627, 31);
+            this._email.TabIndex = 7;
+            // 
+            // _telefoneLabel
+            // 
+            this._telefoneLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._telefoneLabel.Location = new System.Drawing.Point(3, 71);
+            this._telefoneLabel.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this._telefoneLabel.Name = "_telefoneLabel";
+            this._telefoneLabel.Size = new System.Drawing.Size(81, 28);
+            this._telefoneLabel.TabIndex = 8;
+            this._telefoneLabel.Text = "Telefone";
+            this._telefoneLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _telefone
+            // 
+            this._telefone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._telefone.Location = new System.Drawing.Point(93, 71);
+            this._telefone.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this._telefone.Name = "_telefone";
+            this._telefone.Size = new System.Drawing.Size(626, 31);
+            this._telefone.TabIndex = 9;
+            this._telefone.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            // 
+            // _ativo
+            // 
+            this._ativo.Checked = true;
+            this._ativo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._ativo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._ativo.Location = new System.Drawing.Point(730, 71);
+            this._ativo.Name = "_ativo";
+            this._ativo.Size = new System.Drawing.Size(84, 28);
+            this._ativo.TabIndex = 10;
+            this._ativo.Text = "Ativo";
+            // 
+            // _actionsPanel
+            // 
+            this._editorLayout.SetColumnSpan(this._actionsPanel, 4);
+            this._actionsPanel.Controls.Add(this._excluirButton);
+            this._actionsPanel.Controls.Add(this._salvarButton);
+            this._actionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._actionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this._actionsPanel.Location = new System.Drawing.Point(3, 105);
+            this._actionsPanel.Name = "_actionsPanel";
+            this._actionsPanel.Size = new System.Drawing.Size(1449, 64);
+            this._actionsPanel.TabIndex = 11;
+            this._actionsPanel.WrapContents = false;
+            // 
+            // _excluirButton
+            // 
+            this._excluirButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._excluirButton.Location = new System.Drawing.Point(1349, 4);
+            this._excluirButton.Margin = new System.Windows.Forms.Padding(4);
+            this._excluirButton.Name = "_excluirButton";
+            this._excluirButton.Size = new System.Drawing.Size(96, 30);
+            this._excluirButton.TabIndex = 0;
+            this._excluirButton.Text = "Excluir";
+            this._excluirButton.UseVisualStyleBackColor = true;
+            // 
+            // _salvarButton
+            // 
+            this._salvarButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._salvarButton.Location = new System.Drawing.Point(1245, 4);
+            this._salvarButton.Margin = new System.Windows.Forms.Padding(4);
+            this._salvarButton.Name = "_salvarButton";
+            this._salvarButton.Size = new System.Drawing.Size(96, 30);
+            this._salvarButton.TabIndex = 1;
+            this._salvarButton.Text = "Salvar";
+            this._salvarButton.UseVisualStyleBackColor = true;
+            // 
+            // ClienteForm
+            // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(246)))), ((int)(((byte)(248)))));
+            this.ClientSize = new System.Drawing.Size(1501, 725);
+            this.Controls.Add(this._root);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(980, 640);
+            this.Name = "ClienteForm";
+            this.Padding = new System.Windows.Forms.Padding(10);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Clientes";
+            this._root.ResumeLayout(false);
+            this._filtrosGroup.ResumeLayout(false);
+            this._filtrosLayout.ResumeLayout(false);
+            this._filtrosLayout.PerformLayout();
+            this._pagerLayout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
+            this._editorGroup.ResumeLayout(false);
+            this._editorLayout.ResumeLayout(false);
+            this._editorLayout.PerformLayout();
+            this._actionsPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
 
-            Text = "Clientes";
-            StartPosition = FormStartPosition.CenterParent;
-            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            BackColor = Color.FromArgb(245, 246, 248);
-            Size = new Size(1120, 720);
-            MinimumSize = new Size(980, 640);
-            Padding = new Padding(10);
-
-            _root.Name = "_root";
-            _root.Dock = DockStyle.Fill;
-            _root.ColumnCount = 1;
-            _root.RowCount = 3;
-            _root.RowStyles.Add(new RowStyle(SizeType.Absolute, 122));
-            _root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            _root.RowStyles.Add(new RowStyle(SizeType.Absolute, 220));
-
-            _filtrosGroup.Name = "_filtrosGroup";
-            _filtrosGroup.Text = "Pesquisa";
-            _filtrosGroup.Dock = DockStyle.Fill;
-            _filtrosGroup.BackColor = Color.White;
-            _filtrosGroup.Padding = new Padding(10, 8, 10, 10);
-            _filtrosLayout.Name = "_filtrosLayout";
-            _filtrosLayout.Dock = DockStyle.Fill;
-            _filtrosLayout.ColumnCount = 8;
-            _filtrosLayout.RowCount = 2;
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108));
-            _filtrosLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
-            _filtrosLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
-            _filtrosLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
-
-            _filtroNomeLabel.Name = "_filtroNomeLabel";
-            _filtroNomeLabel.Text = "Nome";
-            _filtroNomeLabel.Dock = DockStyle.Fill;
-            _filtroNomeLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _filtroNomeLabel.Margin = new Padding(3, 3, 6, 3);
-            _filtroDocumentoLabel.Name = "_filtroDocumentoLabel";
-            _filtroDocumentoLabel.Text = "Documento";
-            _filtroDocumentoLabel.Dock = DockStyle.Fill;
-            _filtroDocumentoLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _filtroDocumentoLabel.Margin = new Padding(3, 3, 6, 3);
-            _filtroAtivoLabel.Name = "_filtroAtivoLabel";
-            _filtroAtivoLabel.Text = "Ativo";
-            _filtroAtivoLabel.Dock = DockStyle.Fill;
-            _filtroAtivoLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _filtroAtivoLabel.Margin = new Padding(3, 3, 6, 3);
-            _filtroNome.Name = "_filtroNome";
-            _filtroNome.Dock = DockStyle.Fill;
-            _filtroNome.Margin = new Padding(3, 3, 8, 3);
-            _filtroNome.MaxLength = 150;
-            _filtroDocumento.Name = "_filtroDocumento";
-            _filtroDocumento.Dock = DockStyle.Fill;
-            _filtroDocumento.Margin = new Padding(3, 3, 8, 3);
-            _filtroDocumento.MaxLength = 14;
-            _filtroDocumento.KeyPress += FiltroDocumento_KeyPress;
-            _filtroAtivo.Name = "_filtroAtivo";
-            _filtroAtivo.Dock = DockStyle.Fill;
-            _filtroAtivo.Margin = new Padding(3, 3, 8, 3);
-            _filtroAtivo.DropDownStyle = ComboBoxStyle.DropDownList;
-            _filtroAtivo.Items.AddRange(new object[] { "Todos", "Ativos", "Inativos" });
-            _filtroAtivo.SelectedIndex = 0;
-            _pesquisarButton.Name = "_pesquisarButton";
-            _pesquisarButton.Text = "Pesquisar";
-            _pesquisarButton.Width = 96;
-            _pesquisarButton.Height = 30;
-            _pesquisarButton.Margin = new Padding(4);
-            _pesquisarButton.FlatStyle = FlatStyle.System;
-            _pesquisarButton.UseVisualStyleBackColor = true;
-            _pesquisarButton.Click += PesquisarButton_Click;
-            _novoButton.Name = "_novoButton";
-            _novoButton.Text = "Novo";
-            _novoButton.Width = 96;
-            _novoButton.Height = 30;
-            _novoButton.Margin = new Padding(4);
-            _novoButton.FlatStyle = FlatStyle.System;
-            _novoButton.UseVisualStyleBackColor = true;
-            _novoButton.Click += NovoButton_Click;
-
-            _pagerLayout.Name = "_pagerLayout";
-            _pagerLayout.Dock = DockStyle.Fill;
-            _pagerLayout.ColumnCount = 3;
-            _pagerLayout.RowCount = 1;
-            _pagerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            _pagerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            _pagerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96));
-            _paginaLabel.Name = "_paginaLabel";
-            _paginaLabel.Dock = DockStyle.Fill;
-            _paginaLabel.TextAlign = ContentAlignment.MiddleRight;
-            _anteriorButton.Name = "_anteriorButton";
-            _anteriorButton.Text = "Anterior";
-            _anteriorButton.Width = 96;
-            _anteriorButton.Height = 30;
-            _anteriorButton.Margin = new Padding(4, 2, 4, 8);
-            _anteriorButton.FlatStyle = FlatStyle.System;
-            _anteriorButton.UseVisualStyleBackColor = true;
-            _anteriorButton.Click += AnteriorButton_Click;
-            _proximaButton.Name = "_proximaButton";
-            _proximaButton.Text = "Proxima";
-            _proximaButton.Width = 96;
-            _proximaButton.Height = 30;
-            _proximaButton.Margin = new Padding(4, 2, 4, 8);
-            _proximaButton.FlatStyle = FlatStyle.System;
-            _proximaButton.UseVisualStyleBackColor = true;
-            _proximaButton.Click += ProximaButton_Click;
-            _pagerLayout.Controls.Add(_paginaLabel, 0, 0);
-            _pagerLayout.Controls.Add(_anteriorButton, 1, 0);
-            _pagerLayout.Controls.Add(_proximaButton, 2, 0);
-
-            _filtrosLayout.Controls.Add(_filtroNomeLabel, 0, 0);
-            _filtrosLayout.Controls.Add(_filtroNome, 1, 0);
-            _filtrosLayout.Controls.Add(_filtroDocumentoLabel, 2, 0);
-            _filtrosLayout.Controls.Add(_filtroDocumento, 3, 0);
-            _filtrosLayout.Controls.Add(_filtroAtivoLabel, 4, 0);
-            _filtrosLayout.Controls.Add(_filtroAtivo, 5, 0);
-            _filtrosLayout.Controls.Add(_pesquisarButton, 6, 0);
-            _filtrosLayout.Controls.Add(_novoButton, 7, 0);
-            _filtrosLayout.Controls.Add(_pagerLayout, 0, 1);
-            _filtrosLayout.SetColumnSpan(_pagerLayout, 8);
-            _filtrosGroup.Controls.Add(_filtrosLayout);
-
-            _grid.Name = "_grid";
-            _grid.Dock = DockStyle.Fill;
-            _grid.AutoGenerateColumns = false;
-            _grid.AllowUserToAddRows = false;
-            _grid.AllowUserToDeleteRows = false;
-            _grid.AllowUserToResizeRows = false;
-            _grid.ReadOnly = true;
-            _grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            _grid.MultiSelect = false;
-            _grid.RowHeadersVisible = false;
-            _grid.BackgroundColor = Color.White;
-            _grid.BorderStyle = BorderStyle.FixedSingle;
-            _grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _grid.EnableHeadersVisualStyles = false;
-            _grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(238, 241, 245);
-            _grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(30, 30, 30);
-            _grid.ColumnHeadersDefaultCellStyle.Font = new Font(_grid.Font, FontStyle.Bold);
-            _grid.ColumnHeadersHeight = 32;
-            _grid.RowTemplate.Height = 28;
-            _grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 215);
-            _grid.DefaultCellStyle.SelectionForeColor = Color.White;
-            _grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 251, 252);
-            _grid.SelectionChanged += Grid_SelectionChanged;
-            _grid.DataError += Grid_DataError;
-            _idColumn.Name = "_idColumn";
-            _idColumn.DataPropertyName = "Id";
-            _idColumn.HeaderText = "Id";
-            _idColumn.FillWeight = 55;
-            _idColumn.MinimumWidth = 55;
-            _idColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            _nomeColumn.Name = "_nomeColumn";
-            _nomeColumn.DataPropertyName = "Nome";
-            _nomeColumn.HeaderText = "Nome";
-            _nomeColumn.FillWeight = 180;
-            _nomeColumn.MinimumWidth = 70;
-            _documentoColumn.Name = "_documentoColumn";
-            _documentoColumn.DataPropertyName = "Documento";
-            _documentoColumn.HeaderText = "Documento";
-            _documentoColumn.FillWeight = 130;
-            _documentoColumn.MinimumWidth = 70;
-            _tipoColumn.Name = "_tipoColumn";
-            _tipoColumn.DataPropertyName = "Tipo";
-            _tipoColumn.HeaderText = "Tipo";
-            _tipoColumn.FillWeight = 90;
-            _tipoColumn.MinimumWidth = 70;
-            _emailColumn.Name = "_emailColumn";
-            _emailColumn.DataPropertyName = "Email";
-            _emailColumn.HeaderText = "E-mail";
-            _emailColumn.FillWeight = 180;
-            _emailColumn.MinimumWidth = 70;
-            _telefoneColumn.Name = "_telefoneColumn";
-            _telefoneColumn.DataPropertyName = "Telefone";
-            _telefoneColumn.HeaderText = "Telefone";
-            _telefoneColumn.FillWeight = 120;
-            _telefoneColumn.MinimumWidth = 70;
-            _ativoColumn.Name = "_ativoColumn";
-            _ativoColumn.DataPropertyName = "Ativo";
-            _ativoColumn.HeaderText = "Ativo";
-            _ativoColumn.FillWeight = 70;
-            _ativoColumn.MinimumWidth = 60;
-            _grid.Columns.AddRange(new DataGridViewColumn[] { _idColumn, _nomeColumn, _documentoColumn, _tipoColumn, _emailColumn, _telefoneColumn, _ativoColumn });
-
-            _editorGroup.Name = "_editorGroup";
-            _editorGroup.Text = "Dados do cliente";
-            _editorGroup.Dock = DockStyle.Fill;
-            _editorGroup.BackColor = Color.White;
-            _editorGroup.Padding = new Padding(10, 8, 10, 10);
-            _editorLayout.Name = "_editorLayout";
-            _editorLayout.Dock = DockStyle.Fill;
-            _editorLayout.ColumnCount = 4;
-            _editorLayout.RowCount = 4;
-            _editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90));
-            _editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            _editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90));
-            _editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            _editorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            _editorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            _editorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            _editorLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            _nomeLabel.Name = "_nomeLabel";
-            _nomeLabel.Text = "Nome";
-            _nomeLabel.Dock = DockStyle.Fill;
-            _nomeLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _nomeLabel.Margin = new Padding(3, 3, 6, 3);
-            _documentoLabel.Name = "_documentoLabel";
-            _documentoLabel.Text = "Documento";
-            _documentoLabel.Dock = DockStyle.Fill;
-            _documentoLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _documentoLabel.Margin = new Padding(3, 3, 6, 3);
-            _tipoLabel.Name = "_tipoLabel";
-            _tipoLabel.Text = "Tipo";
-            _tipoLabel.Dock = DockStyle.Fill;
-            _tipoLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _tipoLabel.Margin = new Padding(3, 3, 6, 3);
-            _emailLabel.Name = "_emailLabel";
-            _emailLabel.Text = "E-mail";
-            _emailLabel.Dock = DockStyle.Fill;
-            _emailLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _emailLabel.Margin = new Padding(3, 3, 6, 3);
-            _telefoneLabel.Name = "_telefoneLabel";
-            _telefoneLabel.Text = "Telefone";
-            _telefoneLabel.Dock = DockStyle.Fill;
-            _telefoneLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _telefoneLabel.Margin = new Padding(3, 3, 6, 3);
-            _nome.Name = "_nome";
-            _nome.Dock = DockStyle.Fill;
-            _nome.Margin = new Padding(3, 3, 8, 3);
-            _nome.MaxLength = 150;
-            _documento.Name = "_documento";
-            _documento.Dock = DockStyle.Fill;
-            _documento.Margin = new Padding(3, 3, 8, 3);
-            _documento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-            _tipo.Name = "_tipo";
-            _tipo.Dock = DockStyle.Fill;
-            _tipo.Margin = new Padding(3, 3, 8, 3);
-            _tipo.DropDownStyle = ComboBoxStyle.DropDownList;
-            _tipo.SelectedIndexChanged += Tipo_SelectedIndexChanged;
-            _email.Name = "_email";
-            _email.Dock = DockStyle.Fill;
-            _email.Margin = new Padding(3, 3, 8, 3);
-            _email.MaxLength = 150;
-            _email.KeyPress += Email_KeyPress;
-            _telefone.Name = "_telefone";
-            _telefone.Dock = DockStyle.Fill;
-            _telefone.Margin = new Padding(3, 3, 8, 3);
-            _telefone.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-            _telefone.Leave += Telefone_Leave;
-            _ativo.Name = "_ativo";
-            _ativo.Text = "Ativo";
-            _ativo.Checked = true;
-            _ativo.Dock = DockStyle.Fill;
-            _excluirButton.Name = "_excluirButton";
-            _excluirButton.Text = "Excluir";
-            _excluirButton.Width = 96;
-            _excluirButton.Height = 30;
-            _excluirButton.Margin = new Padding(4);
-            _excluirButton.FlatStyle = FlatStyle.System;
-            _excluirButton.UseVisualStyleBackColor = true;
-            _excluirButton.Click += ExcluirButton_Click;
-            _salvarButton.Name = "_salvarButton";
-            _salvarButton.Text = "Salvar";
-            _salvarButton.Width = 96;
-            _salvarButton.Height = 30;
-            _salvarButton.Margin = new Padding(4);
-            _salvarButton.FlatStyle = FlatStyle.System;
-            _salvarButton.UseVisualStyleBackColor = true;
-            _salvarButton.Click += SalvarButton_Click;
-            _actionsPanel.Name = "_actionsPanel";
-            _actionsPanel.Dock = DockStyle.Fill;
-            _actionsPanel.FlowDirection = FlowDirection.RightToLeft;
-            _actionsPanel.WrapContents = false;
-            _actionsPanel.Controls.Add(_excluirButton);
-            _actionsPanel.Controls.Add(_salvarButton);
-            _editorLayout.Controls.Add(_nomeLabel, 0, 0);
-            _editorLayout.Controls.Add(_nome, 1, 0);
-            _editorLayout.Controls.Add(_documentoLabel, 2, 0);
-            _editorLayout.Controls.Add(_documento, 3, 0);
-            _editorLayout.Controls.Add(_tipoLabel, 0, 1);
-            _editorLayout.Controls.Add(_tipo, 1, 1);
-            _editorLayout.Controls.Add(_emailLabel, 2, 1);
-            _editorLayout.Controls.Add(_email, 3, 1);
-            _editorLayout.Controls.Add(_telefoneLabel, 0, 2);
-            _editorLayout.Controls.Add(_telefone, 1, 2);
-            _editorLayout.Controls.Add(_ativo, 2, 2);
-            _editorLayout.Controls.Add(_actionsPanel, 0, 3);
-            _editorLayout.SetColumnSpan(_actionsPanel, 4);
-            _editorGroup.Controls.Add(_editorLayout);
-
-            _root.Controls.Add(_filtrosGroup, 0, 0);
-            _root.Controls.Add(_grid, 0, 1);
-            _root.Controls.Add(_editorGroup, 0, 2);
-            Controls.Add(_root);
-            ((ISupportInitialize)_grid).EndInit();
-            ResumeLayout(false);
         }
     }
 }

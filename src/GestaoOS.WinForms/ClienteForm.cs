@@ -18,13 +18,66 @@ namespace GestaoOS.WinForms
         public ClienteForm()
         {
             InitializeComponent();
+            ConectarEventos();
+            ConfigurarColunasGrid();
             if (UiStyle.IsDesignMode(this))
             {
                 return;
             }
             _tipo.DataSource = Enum.GetValues(typeof(TipoCliente));
+            _filtroAtivo.SelectedIndex = 0;
             AtualizarMascaraTelefone(string.Empty);
             Carregar();
+        }
+
+        private void ConectarEventos()
+        {
+            _grid.SelectionChanged += Grid_SelectionChanged;
+            _grid.DataError += Grid_DataError;
+            _filtroDocumento.KeyPress += FiltroDocumento_KeyPress;
+            _email.KeyPress += Email_KeyPress;
+            _tipo.SelectedIndexChanged += Tipo_SelectedIndexChanged;
+            _telefone.Leave += Telefone_Leave;
+            _pesquisarButton.Click += PesquisarButton_Click;
+            _novoButton.Click += NovoButton_Click;
+            _anteriorButton.Click += AnteriorButton_Click;
+            _proximaButton.Click += ProximaButton_Click;
+            _excluirButton.Click += ExcluirButton_Click;
+            _salvarButton.Click += SalvarButton_Click;
+        }
+
+        private void ConfigurarColunasGrid()
+        {
+            _grid.Columns.Clear();
+            _idColumn = _idColumn ?? new DataGridViewTextBoxColumn();
+            _nomeColumn = _nomeColumn ?? new DataGridViewTextBoxColumn();
+            _documentoColumn = _documentoColumn ?? new DataGridViewTextBoxColumn();
+            _tipoColumn = _tipoColumn ?? new DataGridViewTextBoxColumn();
+            _emailColumn = _emailColumn ?? new DataGridViewTextBoxColumn();
+            _telefoneColumn = _telefoneColumn ?? new DataGridViewTextBoxColumn();
+            _ativoColumn = _ativoColumn ?? new DataGridViewCheckBoxColumn();
+            ConfigurarColunaTexto(_idColumn, "Id", "Id", 55, null, DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_nomeColumn, "Nome", "Nome", 180, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_documentoColumn, "Documento", "Documento", 130, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_tipoColumn, "Tipo", "Tipo", 90, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_emailColumn, "Email", "E-mail", 180, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_telefoneColumn, "Telefone", "Telefone", 120, null, DataGridViewContentAlignment.MiddleLeft);
+            _ativoColumn.DataPropertyName = "Ativo";
+            _ativoColumn.HeaderText = "Ativo";
+            _ativoColumn.FillWeight = 70;
+            _ativoColumn.MinimumWidth = 60;
+            _grid.Columns.AddRange(new DataGridViewColumn[] { _idColumn, _nomeColumn, _documentoColumn, _tipoColumn, _emailColumn, _telefoneColumn, _ativoColumn });
+        }
+
+        private static void ConfigurarColunaTexto(DataGridViewTextBoxColumn column, string propertyName, string headerText, int fillWeight, string format, DataGridViewContentAlignment alignment)
+        {
+            column.DataPropertyName = propertyName;
+            column.HeaderText = headerText;
+            column.FillWeight = fillWeight;
+            column.MinimumWidth = Math.Min(70, Math.Max(45, fillWeight));
+            column.DefaultCellStyle.Alignment = alignment;
+            column.DefaultCellStyle.Format = format;
+            column.DefaultCellStyle.NullValue = string.Empty;
         }
 
         private void Grid_SelectionChanged(object sender, EventArgs e)
@@ -102,7 +155,7 @@ namespace GestaoOS.WinForms
                 {
                     Nome = _filtroNome.Text,
                     Documento = UiStyle.DigitsOnly(_filtroDocumento.Text),
-                    Ativo = _filtroAtivo.SelectedIndex == 0 ? (bool?)null : _filtroAtivo.SelectedIndex == 1
+                    Ativo = ResolverFiltroAtivo(_filtroAtivo.SelectedIndex)
                 };
                 var resultado = Bootstrapper.ClienteService().Pesquisar(filtro, new Paginacao { Pagina = _pagina, TamanhoPagina = 20 });
                 var totalPaginas = Math.Max(1, (int)Math.Ceiling(resultado.Total / 20m));
@@ -124,6 +177,21 @@ namespace GestaoOS.WinForms
         {
             _pagina = 1;
             Carregar();
+        }
+
+        private static bool? ResolverFiltroAtivo(int selectedIndex)
+        {
+            if (selectedIndex == 1)
+            {
+                return true;
+            }
+
+            if (selectedIndex == 2)
+            {
+                return false;
+            }
+
+            return null;
         }
 
         private void PaginaAnterior()

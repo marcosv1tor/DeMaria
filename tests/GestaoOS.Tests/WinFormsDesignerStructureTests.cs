@@ -18,6 +18,21 @@ namespace GestaoOS.Tests
             "RelatorioOrdensForm"
         };
 
+        private static readonly string[] EventBindings =
+        {
+            "_clientesButton.Click += ClientesMenuItem_Click;",
+            "_clientesMenuItem.Click += ClientesMenuItem_Click;",
+            "_servicosButton.Click += ServicosMenuItem_Click;",
+            "_ordensButton.Click += OrdensMenuItem_Click;",
+            "_relatorioButton.Click += RelatoriosMenuItem_Click;",
+            "_pesquisarButton.Click += PesquisarButton_Click;",
+            "_novoButton.Click += NovoButton_Click;",
+            "_salvarButton.Click += SalvarButton_Click;",
+            "_grid.SelectionChanged += Grid_SelectionChanged;",
+            "_gerarButton.Click += GerarButton_Click;",
+            "_pdfButton.Click += PdfButton_Click;"
+        };
+
         [TestMethod]
         public void Forms_DeInterface_UsamEstruturaDoWindowsFormsDesigner()
         {
@@ -39,6 +54,7 @@ namespace GestaoOS.Tests
                 var designerSource = File.ReadAllText(designerPath);
                 Assert.IsTrue(mainSource.Contains("partial class " + form), form + " deve ser partial no arquivo principal.");
                 Assert.IsTrue(mainSource.Contains("InitializeComponent();"), form + " deve chamar InitializeComponent no construtor.");
+                Assert.IsTrue(mainSource.Contains("ConectarEventos();"), form + " deve conectar eventos fora do Designer.");
                 Assert.IsTrue(designerSource.Contains("partial class " + form), form + " deve ser partial no Designer.");
                 Assert.IsTrue(designerSource.Contains("private void InitializeComponent()"), form + " deve declarar InitializeComponent no Designer.");
                 Assert.IsFalse(designerSource.Contains("BuildLayout("), form + " nao deve chamar helper de montagem no Designer.");
@@ -54,6 +70,40 @@ namespace GestaoOS.Tests
                 AssertHasDependentCompile(projeto, ns, form + ".Designer.cs", form + ".cs");
                 AssertHasDependentResource(projeto, ns, form + ".resx", form + ".cs");
             }
+        }
+
+        [TestMethod]
+        public void Eventos_DaInterface_FicamForaDosArquivosDesigner()
+        {
+            var raiz = LocalizarRaizProjeto();
+            var fontesPrincipais = Forms
+                .Select(form => File.ReadAllText(Path.Combine(raiz, "src", "GestaoOS.WinForms", form + ".cs")))
+                .ToList();
+            var fontesDesigner = Forms
+                .Select(form => File.ReadAllText(Path.Combine(raiz, "src", "GestaoOS.WinForms", form + ".Designer.cs")))
+                .ToList();
+
+            foreach (var binding in EventBindings)
+            {
+                Assert.IsTrue(fontesPrincipais.Any(source => source.Contains(binding)), binding + " deve estar no arquivo principal.");
+                Assert.IsFalse(fontesDesigner.Any(source => source.Contains(binding)), binding + " nao deve ficar no Designer.");
+            }
+        }
+
+        [TestMethod]
+        public void FiltroAtivo_DeveIniciarEmTodosENaoFiltrarQuandoSemSelecao()
+        {
+            var raiz = LocalizarRaizProjeto();
+            var clienteSource = File.ReadAllText(Path.Combine(raiz, "src", "GestaoOS.WinForms", "ClienteForm.cs"));
+            var servicoSource = File.ReadAllText(Path.Combine(raiz, "src", "GestaoOS.WinForms", "ServicoForm.cs"));
+
+            Assert.IsTrue(clienteSource.Contains("_filtroAtivo.SelectedIndex = 0;"), "ClienteForm deve iniciar filtro ativo com 'Todos'.");
+            Assert.IsTrue(servicoSource.Contains("_filtroAtivo.SelectedIndex = 0;"), "ServicoForm deve iniciar filtro ativo com 'Todos'.");
+
+            Assert.IsTrue(clienteSource.Contains("private static bool? ResolverFiltroAtivo(int selectedIndex)"), "ClienteForm deve resolver filtro ativo de forma defensiva.");
+            Assert.IsTrue(servicoSource.Contains("private static bool? ResolverFiltroAtivo(int selectedIndex)"), "ServicoForm deve resolver filtro ativo de forma defensiva.");
+            Assert.IsTrue(clienteSource.Contains("return null;"), "ClienteForm deve tratar sem selecao como sem filtro.");
+            Assert.IsTrue(servicoSource.Contains("return null;"), "ServicoForm deve tratar sem selecao como sem filtro.");
         }
 
         private static void AssertHasDependentCompile(XDocument projeto, XNamespace ns, string include, string dependentUpon)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -36,117 +36,201 @@ namespace GestaoOS.WinForms
 
         private void InitializeComponent()
         {
-            components = new Container();
-            _menu = new MenuStrip();
-            _menu.Name = "_menu";
-            _cadastrosMenuItem = new ToolStripMenuItem();
-            _cadastrosMenuItem.Name = "_cadastrosMenuItem";
-            _clientesMenuItem = new ToolStripMenuItem();
-            _clientesMenuItem.Name = "_clientesMenuItem";
-            _servicosMenuItem = new ToolStripMenuItem();
-            _servicosMenuItem.Name = "_servicosMenuItem";
-            _ordensMenuItem = new ToolStripMenuItem();
-            _ordensMenuItem.Name = "_ordensMenuItem";
-            _relatoriosMenuItem = new ToolStripMenuItem();
-            _relatoriosMenuItem.Name = "_relatoriosMenuItem";
-            _root = new TableLayoutPanel();
-            _root.Name = "_root";
-            _title = new Label();
-            _title.Name = "_title";
-            _modules = new GroupBox();
-            _modules.Name = "_modules";
-            _modulesGrid = new TableLayoutPanel();
-            _modulesGrid.Name = "_modulesGrid";
-            _clientesButton = new Button();
-            _clientesButton.Name = "_clientesButton";
-            _servicosButton = new Button();
-            _servicosButton.Name = "_servicosButton";
-            _ordensButton = new Button();
-            _ordensButton.Name = "_ordensButton";
-            _relatorioButton = new Button();
-            _relatorioButton.Name = "_relatorioButton";
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this._menu = new System.Windows.Forms.MenuStrip();
+            this._cadastrosMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._clientesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._servicosMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._ordensMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._relatoriosMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._root = new System.Windows.Forms.TableLayoutPanel();
+            this._title = new System.Windows.Forms.Label();
+            this._modules = new System.Windows.Forms.GroupBox();
+            this._modulesGrid = new System.Windows.Forms.TableLayoutPanel();
+            this._clientesButton = new System.Windows.Forms.Button();
+            this._servicosButton = new System.Windows.Forms.Button();
+            this._ordensButton = new System.Windows.Forms.Button();
+            this._relatorioButton = new System.Windows.Forms.Button();
+            this._menu.SuspendLayout();
+            this._root.SuspendLayout();
+            this._modules.SuspendLayout();
+            this._modulesGrid.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // _menu
+            // 
+            this._menu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this._menu.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this._menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._cadastrosMenuItem,
+            this._ordensMenuItem,
+            this._relatoriosMenuItem});
+            this._menu.Location = new System.Drawing.Point(0, 0);
+            this._menu.Name = "_menu";
+            this._menu.Size = new System.Drawing.Size(1211, 33);
+            this._menu.TabIndex = 1;
+            // 
+            // _cadastrosMenuItem
+            // 
+            this._cadastrosMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._clientesMenuItem,
+            this._servicosMenuItem});
+            this._cadastrosMenuItem.Name = "_cadastrosMenuItem";
+            this._cadastrosMenuItem.Size = new System.Drawing.Size(107, 29);
+            this._cadastrosMenuItem.Text = "Cadastros";
+            // 
+            // _clientesMenuItem
+            // 
+            this._clientesMenuItem.Name = "_clientesMenuItem";
+            this._clientesMenuItem.Size = new System.Drawing.Size(179, 34);
+            this._clientesMenuItem.Text = "Clientes";
+            // 
+            // _servicosMenuItem
+            // 
+            this._servicosMenuItem.Name = "_servicosMenuItem";
+            this._servicosMenuItem.Size = new System.Drawing.Size(179, 34);
+            this._servicosMenuItem.Text = "Servicos";
+            // 
+            // _ordensMenuItem
+            // 
+            this._ordensMenuItem.Name = "_ordensMenuItem";
+            this._ordensMenuItem.Size = new System.Drawing.Size(173, 29);
+            this._ordensMenuItem.Text = "Ordens de Servico";
+            // 
+            // _relatoriosMenuItem
+            // 
+            this._relatoriosMenuItem.Name = "_relatoriosMenuItem";
+            this._relatoriosMenuItem.Size = new System.Drawing.Size(106, 29);
+            this._relatoriosMenuItem.Text = "Relatorios";
+            // 
+            // _root
+            // 
+            this._root.ColumnCount = 1;
+            this._root.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this._root.Controls.Add(this._title, 0, 0);
+            this._root.Controls.Add(this._modules, 0, 1);
+            this._root.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._root.Location = new System.Drawing.Point(0, 33);
+            this._root.Name = "_root";
+            this._root.Padding = new System.Windows.Forms.Padding(24, 18, 24, 24);
+            this._root.RowCount = 2;
+            this._root.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
+            this._root.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._root.Size = new System.Drawing.Size(1211, 656);
+            this._root.TabIndex = 0;
+            // 
+            // _title
+            // 
+            this._title.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._title.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this._title.Location = new System.Drawing.Point(27, 18);
+            this._title.Name = "_title";
+            this._title.Size = new System.Drawing.Size(1157, 86);
+            this._title.TabIndex = 0;
+            this._title.Text = "Gestao de Ordens de Servico";
+            this._title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _modules
+            // 
+            this._modules.BackColor = System.Drawing.Color.White;
+            this._modules.Controls.Add(this._modulesGrid);
+            this._modules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._modules.Location = new System.Drawing.Point(27, 107);
+            this._modules.Name = "_modules";
+            this._modules.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this._modules.Size = new System.Drawing.Size(1157, 522);
+            this._modules.TabIndex = 1;
+            this._modules.TabStop = false;
+            this._modules.Text = "Modulos";
+            // 
+            // _modulesGrid
+            // 
+            this._modulesGrid.ColumnCount = 2;
+            this._modulesGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._modulesGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._modulesGrid.Controls.Add(this._clientesButton, 0, 0);
+            this._modulesGrid.Controls.Add(this._servicosButton, 1, 0);
+            this._modulesGrid.Controls.Add(this._ordensButton, 0, 1);
+            this._modulesGrid.Controls.Add(this._relatorioButton, 1, 1);
+            this._modulesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._modulesGrid.Location = new System.Drawing.Point(10, 32);
+            this._modulesGrid.Name = "_modulesGrid";
+            this._modulesGrid.Padding = new System.Windows.Forms.Padding(20);
+            this._modulesGrid.RowCount = 2;
+            this._modulesGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._modulesGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._modulesGrid.Size = new System.Drawing.Size(1137, 480);
+            this._modulesGrid.TabIndex = 0;
+            // 
+            // _clientesButton
+            // 
+            this._clientesButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._clientesButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._clientesButton.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this._clientesButton.Location = new System.Drawing.Point(36, 36);
+            this._clientesButton.Margin = new System.Windows.Forms.Padding(16);
+            this._clientesButton.Name = "_clientesButton";
+            this._clientesButton.Size = new System.Drawing.Size(516, 188);
+            this._clientesButton.TabIndex = 0;
+            this._clientesButton.Text = "Clientes";
+            // 
+            // _servicosButton
+            // 
+            this._servicosButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._servicosButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._servicosButton.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this._servicosButton.Location = new System.Drawing.Point(584, 36);
+            this._servicosButton.Margin = new System.Windows.Forms.Padding(16);
+            this._servicosButton.Name = "_servicosButton";
+            this._servicosButton.Size = new System.Drawing.Size(517, 188);
+            this._servicosButton.TabIndex = 1;
+            this._servicosButton.Text = "Servicos";
+            // 
+            // _ordensButton
+            // 
+            this._ordensButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._ordensButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._ordensButton.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this._ordensButton.Location = new System.Drawing.Point(36, 256);
+            this._ordensButton.Margin = new System.Windows.Forms.Padding(16);
+            this._ordensButton.Name = "_ordensButton";
+            this._ordensButton.Size = new System.Drawing.Size(516, 188);
+            this._ordensButton.TabIndex = 2;
+            this._ordensButton.Text = "Ordens de Servico";
+            // 
+            // _relatorioButton
+            // 
+            this._relatorioButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._relatorioButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._relatorioButton.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this._relatorioButton.Location = new System.Drawing.Point(584, 256);
+            this._relatorioButton.Margin = new System.Windows.Forms.Padding(16);
+            this._relatorioButton.Name = "_relatorioButton";
+            this._relatorioButton.Size = new System.Drawing.Size(517, 188);
+            this._relatorioButton.TabIndex = 3;
+            this._relatorioButton.Text = "Relatorio Gerencial";
+            // 
+            // MainForm
+            // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(246)))), ((int)(((byte)(248)))));
+            this.ClientSize = new System.Drawing.Size(1211, 689);
+            this.Controls.Add(this._root);
+            this.Controls.Add(this._menu);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this._menu;
+            this.MinimumSize = new System.Drawing.Size(900, 540);
+            this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Gestao de Ordens de Servico";
+            this._menu.ResumeLayout(false);
+            this._menu.PerformLayout();
+            this._root.ResumeLayout(false);
+            this._modules.ResumeLayout(false);
+            this._modulesGrid.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
-            Text = "Gestao de Ordens de Servico";
-            StartPosition = FormStartPosition.CenterScreen;
-            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            BackColor = Color.FromArgb(245, 246, 248);
-            Size = new Size(980, 620);
-            MinimumSize = new Size(900, 540);
-            Padding = new Padding(0);
-
-            _clientesMenuItem.Text = "Clientes";
-            _clientesMenuItem.Click += ClientesMenuItem_Click;
-            _servicosMenuItem.Text = "Servicos";
-            _servicosMenuItem.Click += ServicosMenuItem_Click;
-            _cadastrosMenuItem.Text = "Cadastros";
-            _cadastrosMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _clientesMenuItem, _servicosMenuItem });
-
-            _ordensMenuItem.Text = "Ordens de Servico";
-            _ordensMenuItem.Click += OrdensMenuItem_Click;
-            _relatoriosMenuItem.Text = "Relatorios";
-            _relatoriosMenuItem.Click += RelatoriosMenuItem_Click;
-            _menu.Items.AddRange(new ToolStripItem[] { _cadastrosMenuItem, _ordensMenuItem, _relatoriosMenuItem });
-            MainMenuStrip = _menu;
-
-            _root.Dock = DockStyle.Fill;
-            _root.ColumnCount = 1;
-            _root.RowCount = 2;
-            _root.Padding = new Padding(24, 18, 24, 24);
-            _root.RowStyles.Add(new RowStyle(SizeType.Absolute, 86));
-            _root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-
-            _title.Dock = DockStyle.Fill;
-            _title.TextAlign = ContentAlignment.MiddleCenter;
-            _title.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            _title.Text = "Gestao de Ordens de Servico";
-
-            _modules.Text = "Modulos";
-            _modules.Dock = DockStyle.Fill;
-            _modules.BackColor = Color.White;
-            _modules.Padding = new Padding(10, 8, 10, 10);
-
-            _modulesGrid.Dock = DockStyle.Fill;
-            _modulesGrid.ColumnCount = 2;
-            _modulesGrid.RowCount = 2;
-            _modulesGrid.Padding = new Padding(20);
-            _modulesGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            _modulesGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            _modulesGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            _modulesGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            _clientesButton.Text = "Clientes";
-            _clientesButton.Dock = DockStyle.Fill;
-            _clientesButton.Margin = new Padding(16);
-            _clientesButton.FlatStyle = FlatStyle.System;
-            _clientesButton.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            _clientesButton.Click += ClientesMenuItem_Click;
-            _servicosButton.Text = "Servicos";
-            _servicosButton.Dock = DockStyle.Fill;
-            _servicosButton.Margin = new Padding(16);
-            _servicosButton.FlatStyle = FlatStyle.System;
-            _servicosButton.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            _servicosButton.Click += ServicosMenuItem_Click;
-            _ordensButton.Text = "Ordens de Servico";
-            _ordensButton.Dock = DockStyle.Fill;
-            _ordensButton.Margin = new Padding(16);
-            _ordensButton.FlatStyle = FlatStyle.System;
-            _ordensButton.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            _ordensButton.Click += OrdensMenuItem_Click;
-            _relatorioButton.Text = "Relatorio Gerencial";
-            _relatorioButton.Dock = DockStyle.Fill;
-            _relatorioButton.Margin = new Padding(16);
-            _relatorioButton.FlatStyle = FlatStyle.System;
-            _relatorioButton.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            _relatorioButton.Click += RelatoriosMenuItem_Click;
-            _modulesGrid.Controls.Add(_clientesButton, 0, 0);
-            _modulesGrid.Controls.Add(_servicosButton, 1, 0);
-            _modulesGrid.Controls.Add(_ordensButton, 0, 1);
-            _modulesGrid.Controls.Add(_relatorioButton, 1, 1);
-            _modules.Controls.Add(_modulesGrid);
-
-            _root.Controls.Add(_title, 0, 0);
-            _root.Controls.Add(_modules, 0, 1);
-            Controls.Add(_root);
-            Controls.Add(_menu);
         }
     }
 }

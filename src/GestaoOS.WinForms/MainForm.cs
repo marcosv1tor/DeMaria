@@ -8,6 +8,19 @@ namespace GestaoOS.WinForms
         public MainForm()
         {
             InitializeComponent();
+            ConectarEventos();
+        }
+
+        private void ConectarEventos()
+        {
+            _clientesMenuItem.Click += ClientesMenuItem_Click;
+            _servicosMenuItem.Click += ServicosMenuItem_Click;
+            _ordensMenuItem.Click += OrdensMenuItem_Click;
+            _relatoriosMenuItem.Click += RelatoriosMenuItem_Click;
+            _clientesButton.Click += ClientesMenuItem_Click;
+            _servicosButton.Click += ServicosMenuItem_Click;
+            _ordensButton.Click += OrdensMenuItem_Click;
+            _relatorioButton.Click += RelatoriosMenuItem_Click;
         }
 
         private void ClientesMenuItem_Click(object sender, EventArgs e)

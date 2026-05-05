@@ -19,11 +19,19 @@ namespace GestaoOS.WinForms
         public RelatorioOrdensForm()
         {
             InitializeComponent();
+            ConectarEventos();
             if (UiStyle.IsDesignMode(this))
             {
                 return;
             }
             CarregarCombos();
+        }
+
+        private void ConectarEventos()
+        {
+            _usarPeriodo.CheckedChanged += UsarPeriodo_CheckedChanged;
+            _gerarButton.Click += GerarButton_Click;
+            _pdfButton.Click += PdfButton_Click;
         }
 
         private void UsarPeriodo_CheckedChanged(object sender, EventArgs e)
@@ -107,7 +115,21 @@ namespace GestaoOS.WinForms
                         return;
                     }
 
-                    var bytes = _viewer.LocalReport.Render("PDF");
+                    string mimeType;
+                    string encoding;
+                    string fileNameExtension;
+                    string[] streams;
+                    Microsoft.Reporting.WinForms.Warning[] warnings;
+
+                    var bytes = _viewer.LocalReport.Render(
+                        "PDF", 
+                        null, 
+                        out mimeType, 
+                        out encoding, 
+                        out fileNameExtension, 
+                        out streams, 
+                        out warnings);
+
                     File.WriteAllBytes(dialog.FileName, bytes);
                 }
             });

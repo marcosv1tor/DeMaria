@@ -20,6 +20,9 @@ namespace GestaoOS.WinForms
         public OrdemServicoForm()
         {
             InitializeComponent();
+            ConectarEventos();
+            ConfigurarColunasGrid();
+            ConfigurarColunasItensGrid();
             if (UiStyle.IsDesignMode(this))
             {
                 return;
@@ -28,6 +31,71 @@ namespace GestaoOS.WinForms
             _itensGrid.DataSource = _itens;
             CarregarCombos();
             Carregar();
+        }
+
+        private void ConectarEventos()
+        {
+            _grid.CellFormatting += GridCellFormatting;
+            _grid.SelectionChanged += Grid_SelectionChanged;
+            _grid.DataError += Grid_DataError;
+            _itensGrid.DataError += Grid_DataError;
+            _usarPeriodo.CheckedChanged += UsarPeriodo_CheckedChanged;
+            _status.SelectedIndexChanged += Status_SelectedIndexChanged;
+            _usarConclusao.CheckedChanged += UsarConclusao_CheckedChanged;
+            _pesquisarButton.Click += PesquisarButton_Click;
+            _novaButton.Click += NovaButton_Click;
+            _anteriorButton.Click += AnteriorButton_Click;
+            _proximaButton.Click += ProximaButton_Click;
+            _adicionarItemButton.Click += AdicionarItemButton_Click;
+            _removerItemButton.Click += RemoverItemButton_Click;
+            _salvarButton.Click += SalvarButton_Click;
+        }
+
+        private void ConfigurarColunasGrid()
+        {
+            _grid.Columns.Clear();
+            _osColumn = _osColumn ?? new DataGridViewTextBoxColumn();
+            _clienteNomeColumn = _clienteNomeColumn ?? new DataGridViewTextBoxColumn();
+            _aberturaColumn = _aberturaColumn ?? new DataGridViewTextBoxColumn();
+            _conclusaoColumn = _conclusaoColumn ?? new DataGridViewTextBoxColumn();
+            _statusColumn = _statusColumn ?? new DataGridViewTextBoxColumn();
+            _totalColumn = _totalColumn ?? new DataGridViewTextBoxColumn();
+            _versaoColumn = _versaoColumn ?? new DataGridViewTextBoxColumn();
+            ConfigurarColunaTexto(_osColumn, "Id", "OS", 55, null, DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_clienteNomeColumn, "ClienteNome", "Cliente", 200, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_aberturaColumn, "DataAbertura", "Abertura", 120, "g", DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_conclusaoColumn, "DataConclusao", "Conclusao", 110, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_statusColumn, "Status", "Status", 95, null, DataGridViewContentAlignment.MiddleLeft);
+            ConfigurarColunaTexto(_totalColumn, "ValorTotal", "Total", 95, "C2", DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_versaoColumn, "Versao", "Versao", 65, null, DataGridViewContentAlignment.MiddleRight);
+            _grid.Columns.AddRange(new DataGridViewColumn[] { _osColumn, _clienteNomeColumn, _aberturaColumn, _conclusaoColumn, _statusColumn, _totalColumn, _versaoColumn });
+        }
+
+        private void ConfigurarColunasItensGrid()
+        {
+            _itensGrid.Columns.Clear();
+            _itemServicoColumn = _itemServicoColumn ?? new DataGridViewTextBoxColumn();
+            _itemQuantidadeColumn = _itemQuantidadeColumn ?? new DataGridViewTextBoxColumn();
+            _itemValorUnitarioColumn = _itemValorUnitarioColumn ?? new DataGridViewTextBoxColumn();
+            _itemImpostoColumn = _itemImpostoColumn ?? new DataGridViewTextBoxColumn();
+            _itemTotalColumn = _itemTotalColumn ?? new DataGridViewTextBoxColumn();
+            ConfigurarColunaTexto(_itemServicoColumn, "ServicoId", "Servico", 85, null, DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_itemQuantidadeColumn, "Quantidade", "Qtd", 80, "N2", DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_itemValorUnitarioColumn, "ValorUnitario", "Valor unitario", 110, "C2", DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_itemImpostoColumn, "PercentualImpostoAplicado", "Imposto %", 95, "N2", DataGridViewContentAlignment.MiddleRight);
+            ConfigurarColunaTexto(_itemTotalColumn, "ValorTotalItem", "Total", 110, "C2", DataGridViewContentAlignment.MiddleRight);
+            _itensGrid.Columns.AddRange(new DataGridViewColumn[] { _itemServicoColumn, _itemQuantidadeColumn, _itemValorUnitarioColumn, _itemImpostoColumn, _itemTotalColumn });
+        }
+
+        private static void ConfigurarColunaTexto(DataGridViewTextBoxColumn column, string propertyName, string headerText, int fillWeight, string format, DataGridViewContentAlignment alignment)
+        {
+            column.DataPropertyName = propertyName;
+            column.HeaderText = headerText;
+            column.FillWeight = fillWeight;
+            column.MinimumWidth = Math.Min(70, Math.Max(45, fillWeight));
+            column.DefaultCellStyle.Alignment = alignment;
+            column.DefaultCellStyle.Format = format;
+            column.DefaultCellStyle.NullValue = string.Empty;
         }
 
         private void Grid_SelectionChanged(object sender, EventArgs e)
