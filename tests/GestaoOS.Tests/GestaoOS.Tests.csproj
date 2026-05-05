@@ -29,6 +29,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GestaoOS.Application\GestaoOS.Application.csproj">
@@ -59,6 +61,9 @@
     <Compile Include="ClienteServicoValidationTests.cs" />
     <Compile Include="OrdemServicoDateTimeTests.cs" />
     <Compile Include="OrdemServicoGridPresentationTests.cs" />
+    <Compile Include="RelatorioFiltroTests.cs" />
+    <Compile Include="RelatorioOrdemServicoTests.cs" />
+    <Compile Include="RelatorioRdlcTests.cs" />
     <Compile Include="OrdemServicoRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
